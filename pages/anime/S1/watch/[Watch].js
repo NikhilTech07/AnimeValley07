@@ -7,13 +7,13 @@ export const getServerSideProps = async ( context ) => {
     try {
         const watchAnime = context.query.Watch.toLowerCase().replaceAll(" ", "-").replaceAll("(", "").replaceAll(")", "").replaceAll(".", "").replaceAll(":-", "-");
         const Episode = context.query.episode;
-        const animeIfameRes = await fetch(`http://localhost:3000/api/iframe/${watchAnime}?episode=${Episode}`, {
+        const animeIfameRes = await fetch(`http://${url}/api/iframe/${watchAnime}?episode=${Episode}`, {
             method: "post"
         })
-        const totalAnimeEpisodeRes = await fetch(`http://localhost:3000/api/info/episode/${watchAnime}`, {
+        const totalAnimeEpisodeRes = await fetch(`http://${url}/api/info/episode/${watchAnime}`, {
             method: "post"
         })
-        const recommendedAnimeRes = await fetch(`http://localhost:3000/api/search/gogo?name=${watchAnime}`, {
+        const recommendedAnimeRes = await fetch(`http://${url}/api/search/gogo?name=${watchAnime}`, {
             method: "post"
         })
         const animeIfameData = await animeIfameRes.json()
