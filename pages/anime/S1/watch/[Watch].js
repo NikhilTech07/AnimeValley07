@@ -2,10 +2,11 @@ import Nav from "../../../../components/Nav";
 import Link from "next/link";
 import Image from "next/image";
 import {GiNextButton,GiPreviousButton} from "react-icons/gi"
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ( context ) => {
+    const url=context.req.headers.host
     try {
-        const watchAnime = query.Watch.toLowerCase().replaceAll(" ", "-").replaceAll("(", "").replaceAll(")", "").replaceAll(".", "").replaceAll(":-", "-");
-        const Episode = query.episode;
+        const watchAnime = context.query.Watch.toLowerCase().replaceAll(" ", "-").replaceAll("(", "").replaceAll(")", "").replaceAll(".", "").replaceAll(":-", "-");
+        const Episode = context.query.episode;
         const animeIfameRes = await fetch(`http://localhost:3000/api/iframe/${watchAnime}?episode=${Episode}`, {
             method: "post"
         })
@@ -72,7 +73,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                             {Array.from(Array(totalAnimeEpisodeData[0].Episode), (e, i) => {
                                 return <>
                                     <li key={i + 1}>
-                                        <Link href={`/anime/S1/watch/${watchAnime}?episode=${i + 1}`}>
+                                        <Link href={`/anime/S1/watch/${watchAnime}?episode=${i + 1}`} passHref>
                                             <a className="episode_number">
                                                 <p>{i + 1}</p>
                                             </a>
@@ -94,7 +95,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                         {recommendedAnimeData.slice(1).map((val) => {
                             return (
                                 <>
-                                    <Link href={`/anime/${val.name}?server=Gogo`}>
+                                    <Link href={`/anime/${val.name}?server=Gogo`} passHref>
                                         <div className="recommended_anime_card" key={val.name}  style={{cursor:"pointer"}}>
                                             <div className="recommended_anime_image">
                                                 <Image src={val.img} width="100px" height="100px" alt={val.name}></Image>

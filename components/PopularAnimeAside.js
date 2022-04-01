@@ -5,7 +5,7 @@ const PopularAnimeAside = (props) => {
     <>
        <div className="popular_anime_card">
                       <div className="popular_anime_img">
-                        <Image src={props.img} width="60px" height="86px" />
+                        <Image src={props.img} width="60px" height="86px" alt={props.name} />
                       </div>
                       <div className="popular_anime_desc">
                         <p className="popular_anime_title">{props.name}</p>

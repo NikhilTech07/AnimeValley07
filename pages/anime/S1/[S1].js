@@ -2,13 +2,14 @@ import Image from "next/image";
 import Nav from "../../../components/Nav";
 import { BsPlayCircleFill } from "react-icons/bs";
 import Link from "next/link";
-export const getServerSideProps = async ({ query }) => {
-  const anime = query.S1;
+export const getServerSideProps = async (context) => {
+  const url=context.req.headers.host
+  const anime = context.query.S1;
   const userAnime = anime.toLowerCase().replaceAll(" ", "-").replaceAll("(", "").replaceAll(")", "").replaceAll(".", "").replaceAll(":-", "-")
-  const userRes = await fetch(`http://localhost:3000/api/info/${userAnime}`, {
+  const userRes = await fetch(`http://${url}/api/info/${userAnime}`, {
     method: "post"
   })
-  const similarAnimeRes = await fetch(`http://localhost:3000/api/search/gogo?name=${userAnime}`, {
+  const similarAnimeRes = await fetch(`http://${url}/api/search/gogo?name=${userAnime}`, {
     method: "post"
   })
   const userData = await userRes.json();
@@ -30,7 +31,7 @@ const S1 = ({ userData, similarAnimeData }) => {
         <div className="animePoster" style={{ backgroundImage: `url('${userData[0].img}')` }}></div>
         <div className="userAnimeCard">
           <div className="userAnimeImage">
-            <Image src={userData[0].img} height="250px" width="200px"></Image>
+            <Image src={userData[0].img} height="250px" width="200px" alt={userData[0].name}></Image>
           </div>
           <div className="userAnimeDetails">
             <p className="userAnimeName">{userData[0].name}</p>

@@ -8,25 +8,26 @@ import "swiper/css/pagination";
 import { Autoplay, EffectCoverflow } from "swiper";
 import { FaPlay } from "react-icons/fa";
 import {useState} from "react";
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (context) => {
+  const url=context.req.headers.host;
   try {
-    const carouselRes = await fetch("http://localhost:3000/api/carouselAnime", {
+    const carouselRes = await fetch(`http://${url}/api/carouselAnime`, {
       method: "Post"
     })
     const carouselData = await carouselRes.json();
-    const recentAnimeRes = await fetch("http://localhost:3000/api/displayAnime", {
+    const recentAnimeRes = await fetch(`http://${url}/api/displayAnime`, {
       method: "post"
     })
     const recentAnimeData = await recentAnimeRes.json();
-    const popularAnimeAsideTodayRes = await fetch('http://localhost:3000/api/popularAnimeListToday', {
+    const popularAnimeAsideTodayRes = await fetch(`http://${url}/api/popularAnimeListToday`, {
       method: 'post'
     })
     const popularAnimeAsideTodayData = await popularAnimeAsideTodayRes.json()
-    const popularAnimeAsideWeekRes = await fetch('http://localhost:3000/api/popularAnimeListWeek', {
+    const popularAnimeAsideWeekRes = await fetch(`http://${url}/api/popularAnimeListWeek`, {
       method: 'post'
     })
     const popularAnimeAsideWeekData = await popularAnimeAsideWeekRes.json()
-    const popularAnimeAsideMonthRes = await fetch('http://localhost:3000/api/popularAnimeListMonth', {
+    const popularAnimeAsideMonthRes = await fetch(`http://${url}/api/popularAnimeListMonth`, {
       method: 'post'
     })
     const popularAnimeAsideMonthData = await popularAnimeAsideMonthRes.json()
@@ -43,8 +44,8 @@ export const getServerSideProps = async () => {
     console.log(error)
   }
 }
-const index = ({ carouselData, recentAnimeData, popularAnimeAsideWeekData,popularAnimeAsideMonthData,popularAnimeAsideTodayData }) => {
-  const [popularAnimeType,setPopularAnimeType]=useState("today")
+const Index = ({ carouselData, recentAnimeData, popularAnimeAsideWeekData,popularAnimeAsideMonthData,popularAnimeAsideTodayData }) => {
+  const [popularAnimeType,SetPopularAnimeType]=useState("today")
   return (
     <>
       <header>
@@ -78,7 +79,7 @@ const index = ({ carouselData, recentAnimeData, popularAnimeAsideWeekData,popula
                   <SwiperSlide key={val.name}>
                     <div className="carousel_card">
                       <div className="carousel_image">
-                        <Image src={val.img} width="432px" height="286px" />
+                        <Image src={val.img} width="432px" height="286px" alt={val.name} />
                       </div>
                       <div className="carousel_anime_details">
                         <p className="carousel_anime_name">{val.name}</p>
@@ -122,9 +123,9 @@ const index = ({ carouselData, recentAnimeData, popularAnimeAsideWeekData,popula
             <p className="writtenAnimeText">Popular Anime</p>
           </div>
           <div className="top_anime_selector">
-            <button className="today popularAnimeDateSelector" onClick={()=>{setPopularAnimeType("today")}}><u>Today</u></button>
-            <button className="week popularAnimeDateSelector" onClick={()=>{setPopularAnimeType("week")}}><u>Week</u></button>
-            <button className="month popularAnimeDateSelector" onClick={()=>{setPopularAnimeType("month")}}><u>Month</u></button>
+            <button className="today popularAnimeDateSelector" onClick={()=>{SetPopularAnimeType("today")}}><u>Today</u></button>
+            <button className="week popularAnimeDateSelector" onClick={()=>{SetPopularAnimeType("week")}}><u>Week</u></button>
+            <button className="month popularAnimeDateSelector" onClick={()=>{SetPopularAnimeType("month")}}><u>Month</u></button>
           </div>
           <main className="popularAnimeList">
             {popularAnimeType === "today" && <div className="popular_anime_today">
@@ -145,7 +146,7 @@ const index = ({ carouselData, recentAnimeData, popularAnimeAsideWeekData,popula
                 )
               })}
             </div>}
-            {popularAnimeType === "month" && <div className="popular_anime_Month">
+            {popularAnimeType === "month" && <div className="popular_anime_Month" >
               {popularAnimeAsideMonthData.map((val) => {
                 return (
                   <>
@@ -161,4 +162,4 @@ const index = ({ carouselData, recentAnimeData, popularAnimeAsideWeekData,popula
   )
 }
 
-export default index
+export default Index

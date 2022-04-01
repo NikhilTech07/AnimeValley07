@@ -3,31 +3,32 @@ import PopularAnimeAside from "../../components/PopularAnimeAside";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async (context) => {
+  const url=context.req.headers.host
   try {
-    const userSearch = query.Search;
-    const gogoRes = await fetch(`http://localhost:3000/api/search/gogo?name=${userSearch}`, {
+    const userSearch = context.query.Search;
+    const gogoRes = await fetch(`http://${url}/api/search/gogo?name=${userSearch}`, {
       method: "post"
     })
     const GogoData = await gogoRes.json();
     const data = GogoData[0].name.toLowerCase().replaceAll(" ", "%20").replaceAll("(Dub)", "")
-    const rushRes = await fetch(`http://localhost:3000/api/search/rush?name=${userSearch}`, {
+    const rushRes = await fetch(`http://${url}/api/search/rush?name=${userSearch}`, {
       method: "post"
     })
     const RushData = await rushRes.json()
-    const animeLandRes = await fetch(`http://localhost:3000/api/search/animeLand?name=${data}`, {
+    const animeLandRes = await fetch(`http://${url}/api/search/animeLand?name=${data}`, {
       method: "post"
     })
     const animeLandData = await animeLandRes.json();
-    const popularAnimeAsideTodayRes = await fetch('http://localhost:3000/api/popularAnimeListToday', {
+    const popularAnimeAsideTodayRes = await fetch(`http://${url}/api/popularAnimeListToday`, {
       method: 'post'
     })
     const popularAnimeAsideTodayData = await popularAnimeAsideTodayRes.json()
-    const popularAnimeAsideWeekRes = await fetch('http://localhost:3000/api/popularAnimeListWeek', {
+    const popularAnimeAsideWeekRes = await fetch(`http://${url}/api/popularAnimeListWeek`, {
       method: 'post'
     })
     const popularAnimeAsideWeekData = await popularAnimeAsideWeekRes.json()
-    const popularAnimeAsideMonthRes = await fetch('http://localhost:3000/api/popularAnimeListMonth', {
+    const popularAnimeAsideMonthRes = await fetch(`http://${url}/api/popularAnimeListMonth`, {
       method: 'post'
     })
     const popularAnimeAsideMonthData = await popularAnimeAsideMonthRes.json()
@@ -45,8 +46,8 @@ export const getServerSideProps = async ({ query }) => {
     console.log(error)
   }
 }
-const search = ({ GogoData, RushData, animeLandData, popularAnimeAsideMonthData, popularAnimeAsideTodayData, popularAnimeAsideWeekData }) => {
-  const [popularAnimeType, setPopularAnimeType] = useState("today")
+const Search = ({ GogoData, RushData, animeLandData, popularAnimeAsideMonthData, popularAnimeAsideTodayData, popularAnimeAsideWeekData }) => {
+  const [popularAnimeType, SetPopularAnimeType] = useState("today")
   return (
     <>
       <header>
@@ -92,7 +93,7 @@ const search = ({ GogoData, RushData, animeLandData, popularAnimeAsideMonthData,
                       <div className="anime_card">
                         <div className="anime_image">
                           <object data={val.data} alt="Anime" width="100" height="130">
-                            <Image src="/images/image-soon-large.jpg" width="100" height="180" />
+                            <Image src="/images/image-soon-large.jpg" width="100" height="180" alt={val.name}/>
                           </object>
                         </div>
                         <div className="anime_desc">
@@ -136,9 +137,9 @@ const search = ({ GogoData, RushData, animeLandData, popularAnimeAsideMonthData,
             <p className="writtenAnimeText">Popular Anime</p>
           </div>
           <div className="top_anime_selector">
-            <button className="today popularAnimeDateSelector" onClick={() => { setPopularAnimeType("today") }}><u>Today</u></button>
-            <button className="week popularAnimeDateSelector" onClick={() => { setPopularAnimeType("week") }}><u>Week</u></button>
-            <button className="month popularAnimeDateSelector" onClick={() => { setPopularAnimeType("month") }}><u>Month</u></button>
+            <button className="today popularAnimeDateSelector" onClick={() => { SetPopularAnimeType("today") }}><u>Today</u></button>
+            <button className="week popularAnimeDateSelector" onClick={() => { SetPopularAnimeType("week") }}><u>Week</u></button>
+            <button className="month popularAnimeDateSelector" onClick={() => { SetPopularAnimeType("month") }}><u>Month</u></button>
           </div>
           <main className="popularAnimeList">
             {popularAnimeType === "today" && <div className="popular_anime_today">
@@ -175,4 +176,4 @@ const search = ({ GogoData, RushData, animeLandData, popularAnimeAsideMonthData,
   )
 }
 
-export default search
+export default Search

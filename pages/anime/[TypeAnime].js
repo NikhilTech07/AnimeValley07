@@ -2,25 +2,26 @@ import Nav from "../../components/Nav";
 import Image from "next/image";
 import PopularAnimeAside from "../../components/PopularAnimeAside";
 import { useState } from "react";
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async (context) => {
+  const url=context.req.headers.host
     try {
-      const animeType = query.TypeAnime;
-      const res = await fetch(`http://localhost:3000/api/${animeType}`, {
+      const animeType = context.query.TypeAnime;
+      const res = await fetch(`http://${url}/api/${animeType}`, {
         method: "post"
       })
       const resData = await res.json()
-      const popularAnimeAsideTodayRes = await fetch('http://localhost:3000/api/popularAnimeListToday', {
-      method: 'post'
-    })
-    const popularAnimeAsideTodayData = await popularAnimeAsideTodayRes.json()
-    const popularAnimeAsideWeekRes = await fetch('http://localhost:3000/api/popularAnimeListWeek', {
-      method: 'post'
-    })
-    const popularAnimeAsideWeekData = await popularAnimeAsideWeekRes.json()
-    const popularAnimeAsideMonthRes = await fetch('http://localhost:3000/api/popularAnimeListMonth', {
-      method: 'post'
-    })
-    const popularAnimeAsideMonthData = await popularAnimeAsideMonthRes.json()
+      const popularAnimeAsideTodayRes = await fetch(`http://${url}/api/popularAnimeListToday`, {
+        method: 'post'
+      })
+      const popularAnimeAsideTodayData = await popularAnimeAsideTodayRes.json()
+      const popularAnimeAsideWeekRes = await fetch(`http://${url}/api/popularAnimeListWeek`, {
+        method: 'post'
+      })
+      const popularAnimeAsideWeekData = await popularAnimeAsideWeekRes.json()
+      const popularAnimeAsideMonthRes = await fetch(`http://${url}/api/popularAnimeListMonth`, {
+        method: 'post'
+      })
+      const popularAnimeAsideMonthData = await popularAnimeAsideMonthRes.json()
       return {
         props: {
           resData,

@@ -38,7 +38,7 @@ const Nav = () => {
     }
     const search=async()=>{
         const fetchValue=searchValue.current.value;
-        const res=await fetch(`http://localhost:3000/api/search/gogo?name=${fetchValue}`,{
+        const res=await fetch(`/api/search/gogo?name=${fetchValue}`,{
             method:"post"
         })
         const data=await res.json();
@@ -109,7 +109,7 @@ const Nav = () => {
                             <>
                             <div className="searchInput_anime_card">
                                 <div className="searchInput_anime_Image">
-                                <Image src={val.img} height="46px" width="40px"/>
+                                <Image src={val.img} height="46px" width="40px" alt={val.name}/>
                                 </div>
                                 <div className="searchInput_anime_details">
                                     <p className="searchInput_anime_name">{val.name}</p>

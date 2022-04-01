@@ -18,7 +18,7 @@ const ManualApi = async(req,res) => {
   else if(req.url==="/api/animeMovie"){
         res.status(200).json(await animeMovie())
   }
-  else if(req.url==="/api/ongoingSeries"){
+  else if(req.url==="/api/ongoingAnime"){
       res.status(200).json(await ongoingSeries())
   }
   else if(req.url==="/api/carouselAnime"){
