@@ -89,6 +89,10 @@ li{
   width: 100%;
   height: 100vh;
   display: none;
+  position: absolute;
+  top: 0%;
+  z-index: 2;
+  background-color: #000;
 }
 .active{
   display: flex !important;
@@ -343,15 +347,16 @@ aside{
   display: flex;
   justify-content: center;
   position: relative;
+  min-height: 260px;
   padding-bottom: 56.25%;
-  height: 0;
   width: 100%;
   background-color: #000;
 }
 #iframe{
+  height: 60rem !important;
   position: absolute;
 }
-.player_func{
+/* .player_func{
   color: #fff;
   font-size: 1.7rem;
   display: none;
@@ -364,7 +369,7 @@ select{
   position: relative;
   left: 4%;
   margin-bottom: 10%;
-}
+} */
 .episode_list{
   display: grid;
   grid-template-columns: repeat(auto-fill,minmax(71px,70px))!important;

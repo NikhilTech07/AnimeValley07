@@ -1,4 +1,5 @@
 import Nav from "../components/Nav";
+import Link from "next/link";
 import PopularAnimeAside from "../components/PopularAnimeAside";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -103,6 +104,8 @@ const Index = ({ carouselData, recentAnimeData, popularAnimeAsideWeekData,popula
             {recentAnimeData.map((val) => {
               return (
                 <>
+                 <Link href={`/anime/S1/watch/${val.name.replaceAll(" ",'-').replaceAll("-Episode-",'?episode=').toLowerCase()}`}>
+                  <a>
                   <div className="anime_card" key={val.name}>
                     <div className="anime_image">
                       <Image src={val.img} width="100px" height="100px" alt={val.name}></Image>
@@ -112,6 +115,8 @@ const Index = ({ carouselData, recentAnimeData, popularAnimeAsideWeekData,popula
                       <p className="anime_date">{val.date}</p>
                     </div>
                   </div>
+                  </a>
+                 </Link>
                 </>
               )
             })}

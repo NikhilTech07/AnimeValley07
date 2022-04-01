@@ -73,8 +73,8 @@ const Nav = () => {
         </div>
         <div className="other_widgets_list">
             <ul className="other_widgets_list">
-                <li className="search_widgets">
-                   <button className="search_bar_button widgets_button" onClick={()=>{openToggle(),closeNavToggle()}} > <FiSearch/></button>
+                <li className="search_widgets" onClick={()=>{closeNavToggle()}}>
+                   <button className="search_bar_button widgets_button" onClick={()=>{openToggle()}} > <FiSearch/></button>
                 </li>
                 <li className="notification_widgets">
                     <button className="bell_icon widgets_button" onClick={()=>{closeNavToggle()}}><IoNotifications/></button>
@@ -107,7 +107,9 @@ const Nav = () => {
                     {searchAnime.length>0 && searchAnime.map((val)=>{
                         return(
                             <>
-                            <div className="searchInput_anime_card">
+                            <Link href={`/anime/S1/${val.name}`}>
+                                <a>
+                                <div className="searchInput_anime_card">
                                 <div className="searchInput_anime_Image">
                                 <Image src={val.img} height="46px" width="40px" alt={val.name}/>
                                 </div>
@@ -115,6 +117,8 @@ const Nav = () => {
                                     <p className="searchInput_anime_name">{val.name}</p>
                                 </div>
                             </div>
+                                </a>
+                            </Link>
                             </>
                         )
                     })}

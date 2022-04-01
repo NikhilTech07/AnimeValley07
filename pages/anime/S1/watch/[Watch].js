@@ -47,7 +47,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                     <div className="iframeContainer">
                         <iframe id="iframe" rel="nofollow" src={animeIfameData[0]} style={{ width: "95%", height: "100%" }} allowFullScreen="true" frameBorder="0" marginWidth="0" marginHeight="0" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                     </div>
-                    <div className="player_func">
+                    {/* <div className="player_func">
                         <div className="streaming_service">
                             <p>Stream:<span className="streaming_namw"></span>Gogo</p>
                         </div>
@@ -67,7 +67,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                                 <option value="0">DOODSTREAM</option>
                             </select>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="episodeList">
                         <ul className="episode_list">
                             {Array.from(Array(totalAnimeEpisodeData[0].Episode), (e, i) => {
@@ -95,7 +95,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                         {recommendedAnimeData.slice(1).map((val) => {
                             return (
                                 <>
-                                    <Link href={`/anime/${val.name}?server=Gogo`} passHref>
+                                    <Link href={`/anime/S1/${val.name}`} passHref>
                                         <div className="recommended_anime_card" key={val.name}  style={{cursor:"pointer"}}>
                                             <div className="recommended_anime_image">
                                                 <Image src={val.img} width="100px" height="100px" alt={val.name}></Image>

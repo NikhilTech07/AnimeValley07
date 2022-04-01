@@ -1,5 +1,6 @@
 import Nav from "../../components/Nav";
 import Image from "next/image";
+import Link from "next/link";
 import PopularAnimeAside from "../../components/PopularAnimeAside";
 import { useState } from "react";
 export const getServerSideProps = async (context) => {
@@ -52,6 +53,8 @@ const TypeAnime = ({resData,animeType,popularAnimeAsideMonthData,popularAnimeAsi
             {resData.map((val) => {
               return (
                 <>
+                <Link href={`/anime/S1/watch/${val.name.replaceAll(" ",'-').replaceAll("-Episode-",'?episode=').toLowerCase()}`}>
+                  <a>
                   <div className="anime_card" key={val.name}>
                     <div className="anime_image">
                       <Image src={val.img} width="100px" height="100px" alt={val.name}></Image>
@@ -61,6 +64,8 @@ const TypeAnime = ({resData,animeType,popularAnimeAsideMonthData,popularAnimeAsi
                       <p className="anime_date">{val.date}</p>
                     </div>
                   </div>
+                  </a>
+                </Link>
                 </>
               )
             })}
