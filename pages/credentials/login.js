@@ -1,5 +1,5 @@
 import {getSession,getProviders} from "next-auth/react";
-import LoginBtn from "../components/LoginBtn";
+import LoginBtn from "../../components/LoginBtn";
 export async function getServerSideProps(context) {
   const session = await getSession(context)
   const provider=await getProviders(context)
