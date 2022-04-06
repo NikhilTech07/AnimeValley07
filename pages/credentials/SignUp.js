@@ -1,10 +1,38 @@
-import Nav from "../../components/Nav"
+import {getSession,getProviders,signIn} from "next-auth/react";
+import connectDB from "../../config/connectDB";
 import Link from "next/link";
 import { GoChevronLeft } from "react-icons/go";
 import {AiOutlineGoogle} from "react-icons/ai";
 import {BsInstagram} from "react-icons/bs";
-import {FaFacebookF} from "react-icons/fa"
-const SignUp = () => {
+import { useEffect } from "react";
+import {FaFacebookF} from "react-icons/fa";
+export async function getServerSideProps(context) {
+  const session = await getSession(context)
+  const provider=await getProviders(context)
+  if (!session) {
+    return {
+      props: {provider}
+    }
+  }
+  const { user } = session;
+  return {
+    props: { user,provider },
+  }
+}
+const SignUp = ({provider,user}) => {
+  useEffect(async()=>{
+    document.title="Anime Valley"
+    if (user) {
+      const res=await fetch('http://localhost:3000/api/auth1/google',{
+        method:'POST',
+        body:JSON.stringify(user),
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json"
+        }
+      })
+    }
+  })
   return (
     <>
       <header style={{ height: "7rem" }}>
@@ -35,7 +63,7 @@ const SignUp = () => {
               </p>
               <div className="oauthOption">
                 <div className="googleoauth oauthProvider">
-                  <button className="oauthLink credButton">
+                  <button className="oauthLink credButton" onClick={()=>signIn(provider.google.id)}>
                     <div className="oauthIcon">
                       <AiOutlineGoogle color="#e74c3c" /> 
                     </div>
