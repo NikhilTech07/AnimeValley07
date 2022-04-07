@@ -4,7 +4,7 @@ import Link from "next/link";
 import { GoChevronLeft } from "react-icons/go";
 import {AiOutlineGoogle} from "react-icons/ai";
 import {BsInstagram} from "react-icons/bs";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import {FaFacebookF} from "react-icons/fa";
 export async function getServerSideProps(context) {
   const session = await getSession(context)
@@ -20,6 +20,21 @@ export async function getServerSideProps(context) {
   }
 }
 const SignUp = ({provider,user}) => {
+  const [credential,setCredential]=useState({
+    firstName:"",
+    secondName:"",
+    Gmail:""
+    
+  })
+  const settingCred=(event)=>{
+    const {name,value}=event.target;
+    setCredential((preValue)=>{
+      return{
+        ...preValue,
+        [name]:value
+      }
+    })
+  }
   useEffect(async()=>{
     document.title="Anime Valley"
     if (user) {
@@ -33,6 +48,22 @@ const SignUp = ({provider,user}) => {
       })
     }
   })
+  const postChange=async(e)=>{
+    if (credential.firstName===""||credential.secondName===""||credential.Gmail==="") {
+      alert("please Submit form")
+    }
+    else{
+      const res=await fetch('http://localhost:3000/api/auth1/manual',{
+        method:'POST',
+        body:JSON.stringify(credential),
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json"
+        }
+      })
+    }
+    e.preventDefault()
+  }
   return (
     <>
       <header style={{ height: "7rem" }}>
@@ -93,15 +124,15 @@ const SignUp = ({provider,user}) => {
                 <hr style={{width:"18rem"}}/>
               </div>
               <div className="loginWithGmailOption">
-                <form>
+                <form autoComplete="off">
                   <div className="nameCred">
-                  <input type="name" id="userFirstName" className="userName userCredentials" placeholder="First name"/>
-                  <input type="name" id="userSecondName" className="userName userCredentials"  placeholder="second name"/>
+                  <input type="name" id="userFirstName" className="userName userCredentials" name="firstName" placeholder="First name" onChange={(event)=>{settingCred(event)}}/>
+                  <input type="name" id="userSecondName" className="userName userCredentials" name="secondName"  placeholder="second name" onChange={(event)=>settingCred(event)}/>
                   </div>
                   <div className="gmailCred">
-                    <input type="email" id="userGmail" className="userGmail userCredentials" placeholder="Gmalil"/>
+                    <input type="email" id="userGmail" className="userGmail userCredentials " name="Gmail" placeholder="Gmalil" onChange={(event)=>{settingCred(event)}} />
                   </div>
-                  <button className="credButton">Sign Up with Gmail</button>
+                  <button className="credButton" onClick={(e)=>{postChange(e)}}>Sign Up with Gmail</button>
                 </form>
               </div>
             </div>

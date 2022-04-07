@@ -12,13 +12,13 @@ import {useState} from "react";
 export const getServerSideProps = async (context) => {
   const url=context.req.headers.host;
   try {
-    const carouselRes = await fetch(`http://${url}/api/carouselAnime`, {
-      method: "Post"
-    })
-    const carouselData = await carouselRes.json();
-    const recentAnimeRes = await fetch(`http://${url}/api/displayAnime`, {
-      method: "post"
-    })
+    // const carouselRes = await fetch(`http://${url}/api/carouselAnime`, {
+    //   method: "Post"
+    // })
+    // const carouselData = await carouselRes.json();
+    // const recentAnimeRes = await fetch(`http://${url}/api/displayAnime`, {
+    //   method: "post"
+    // })
     const recentAnimeData = await recentAnimeRes.json();
     const popularAnimeAsideTodayRes = await fetch(`http://${url}/api/popularAnimeListToday`, {
       method: 'post'
