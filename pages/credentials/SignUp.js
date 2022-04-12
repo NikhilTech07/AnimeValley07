@@ -5,7 +5,7 @@ import { GoChevronLeft } from "react-icons/go";
 import {AiOutlineGoogle} from "react-icons/ai";
 import {BsInstagram} from "react-icons/bs";
 import { useEffect,useState } from "react";
-import {FaFacebookF} from "react-icons/fa";
+import {BsTwitter} from "react-icons/bs";
 export async function getServerSideProps(context) {
   const session = await getSession(context)
   const provider=await getProviders(context)
@@ -20,6 +20,7 @@ export async function getServerSideProps(context) {
   }
 }
 const SignUp = ({provider,user}) => {
+  const [authType,setAuthType]=useState('')
   const [credential,setCredential]=useState({
     firstName:"",
     secondName:"",
@@ -66,6 +67,7 @@ const SignUp = ({provider,user}) => {
   }
   return (
     <>
+    {console.log(provider,user)}
       <header style={{ height: "7rem" }}>
         <Link href="/">
           <a>
@@ -101,12 +103,12 @@ const SignUp = ({provider,user}) => {
                    Sign Up with Google
                   </button>
                 </div>
-                <div className="facebookoauth oauthProvider">
-                  <button className="oauthLink credButton">
+                <div className="twitteroauth oauthProvider">
+                  <button className="oauthLink credButton" onClick={()=>signIn(provider.twitter.id)}>
                   <div className="oauthIcon">
-                      <FaFacebookF color="#130f40" /> 
+                      <BsTwitter color="#130f40" /> 
                     </div>
-                    Sign Up with Facebook
+                    Sign Up with Twitter
                   </button>
                 </div>
                 <div className="instagramoauth oauthProvider">

@@ -1,8 +1,11 @@
 import got from "got";
 import jsdom from "jsdom"
 const { JSDOM } = jsdom;
-const PageApi = () => {
-
+const PageApi = async(req,res) => {
+    const pageValue=req.query.pages
+    if (req.url==`/api/pagesApi/displayAnime?pages=${pageValue}`) {
+        res.status(200).json(await displayAnimePage())
+    }
 }
 const displayAnimePage=async(pageNum)=>{
     let animePageResult=[]

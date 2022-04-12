@@ -1,9 +1,12 @@
 import { BsFillEyeFill } from "react-icons/bs";
+import Link from "next/link";
 import Image from "next/image";
 const PopularAnimeAside = (props) => {
   return (
     <>
-       <div className="popular_anime_card">
+        <Link href={`/anime/S1/watch/${props.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
+          <a>
+          <div className="popular_anime_card">
                       <div className="popular_anime_img">
                         <Image src={props.img} width="60px" height="86px" alt={props.name} />
                       </div>
@@ -12,6 +15,8 @@ const PopularAnimeAside = (props) => {
                         <p className="popular_anime_views"><span className="views_icon"><BsFillEyeFill /></span> {props.views}</p>
                       </div>
                     </div>
+          </a>
+        </Link>
     </>
   )
 }
