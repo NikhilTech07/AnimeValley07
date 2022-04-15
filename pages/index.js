@@ -35,43 +35,44 @@ const Index = ({carouselData}) => {
   const [popularAnimeType, SetPopularAnimeType] = useState("today");
   const [animeContainerContent,SetanimeContainerContent]=useState("recentAnime")
   let page=1;
-  const reloadPageFunc=async()=>{
-    const recentAnimeRes=await fetch("/api/displayAnime",{
-      method:"Post"
-    });
-    const recentAnimeData=await recentAnimeRes.json();
-    const ongoingAnimeRes=await fetch("/api/ongoingAnime",{
-      method:"Post"
-    });
-    const ongoingAnimeData=await ongoingAnimeRes.json();
-    const animeMovieRes=await fetch("/api/animeMovie",{
-      method:"Post"
-    });
-    const animeMovieData=await animeMovieRes.json();
-    const popularAnimeAsideTodayRes = await fetch(`/api/popularAnimeListToday`, {
-      method: 'post'
-    });
-    const popularAnimeAsideTodayData = await popularAnimeAsideTodayRes.json();
-    const popularAnimeAsideWeekRes = await fetch(`/api/popularAnimeListWeek`, {
-      method: 'post'
-    });
-    const popularAnimeAsideWeekData = await popularAnimeAsideWeekRes.json();
-    const popularAnimeAsideMonthRes = await fetch(`/api/popularAnimeListMonth`, {
-      method: 'post'
-    });
-    const popularAnimeAsideMonthData = await popularAnimeAsideMonthRes.json();
-    SetanimeDetails({
-      recentAnime:recentAnimeData,
-      popularAnimeToday:popularAnimeAsideTodayData,
-      popularAnimeWeek:popularAnimeAsideWeekData,
-      popularAnimeMonth:popularAnimeAsideMonthData,
-      ongoingAnime:ongoingAnimeData,
-      animeMovie:animeMovieData
-    })
-  }
+ 
   useEffect(()=>{
+    const reloadPageFunc=async()=>{
+      const recentAnimeRes=await fetch("/api/displayAnime",{
+        method:"Post"
+      });
+      const recentAnimeData=await recentAnimeRes.json();
+      const ongoingAnimeRes=await fetch("/api/ongoingAnime",{
+        method:"Post"
+      });
+      const ongoingAnimeData=await ongoingAnimeRes.json();
+      const animeMovieRes=await fetch("/api/animeMovie",{
+        method:"Post"
+      });
+      const animeMovieData=await animeMovieRes.json();
+      const popularAnimeAsideTodayRes = await fetch(`/api/popularAnimeListToday`, {
+        method: 'post'
+      });
+      const popularAnimeAsideTodayData = await popularAnimeAsideTodayRes.json();
+      const popularAnimeAsideWeekRes = await fetch(`/api/popularAnimeListWeek`, {
+        method: 'post'
+      });
+      const popularAnimeAsideWeekData = await popularAnimeAsideWeekRes.json();
+      const popularAnimeAsideMonthRes = await fetch(`/api/popularAnimeListMonth`, {
+        method: 'post'
+      });
+      const popularAnimeAsideMonthData = await popularAnimeAsideMonthRes.json();
+      SetanimeDetails({
+        recentAnime:recentAnimeData,
+        popularAnimeToday:popularAnimeAsideTodayData,
+        popularAnimeWeek:popularAnimeAsideWeekData,
+        popularAnimeMonth:popularAnimeAsideMonthData,
+        ongoingAnime:ongoingAnimeData,
+        animeMovie:animeMovieData
+      })
+    }
     reloadPageFunc()
-  },[reloadPageFunc])
+  },[])
   const addPage = async (name) => {
     page=page+1;
     try {
