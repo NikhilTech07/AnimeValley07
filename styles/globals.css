@@ -34,20 +34,24 @@ nav {
   position: relative;
   z-index: 3;
 }
+
 .website_title {
   position: relative;
   left: 10%;
   font-size: 2.5rem;
   font-weight: bold;
 }
+
 .website_title span {
   color: hsl(194, 56%, 56%);
   margin-left: 2px;
 }
-.firstNavbar{
+
+.firstNavbar {
   display: flex;
 }
-.secondNavbar{
+
+.secondNavbar {
   font-size: 1.9rem;
   color: #fff;
   display: flex;
@@ -55,10 +59,13 @@ nav {
   height: 5rem;
   align-items: flex-end;
   background-color: hsl(9, 86%, 44%);
+  overflow: auto;
 }
+
 ul {
   display: flex;
 }
+
 li {
   list-style: none;
   list-style: none;
@@ -66,7 +73,8 @@ li {
   text-transform: capitalize;
   position: relative;
 }
-.widgets{
+
+.widgets {
   cursor: pointer;
   height: 3rem;
   width: 9rem;
@@ -76,10 +84,12 @@ li {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
-.widgets:hover{
+
+.widgets:hover {
   height: 3rem;
   background-color: rgba(255, 255, 255, .2);
 }
+
 .widgets_button {
   font-size: 1.8rem;
   border: 2px solid;
@@ -88,6 +98,7 @@ li {
   color: hsl(194, 56%, 56%);
   font-weight: 600;
 }
+
 .navbarToggle {
   position: absolute;
   right: 10%;
@@ -95,6 +106,7 @@ li {
   justify-content: space-around;
   align-items: center;
 }
+
 .search_bar {
   width: 100%;
   height: 100vh;
@@ -186,6 +198,7 @@ li {
   display: none;
   cursor: pointer;
 }
+
 /* desinging carousel */
 .anime_carousel {
   width: 90%;
@@ -285,11 +298,13 @@ section {
   height: 3.5rem;
   overflow: hidden;
 }
-.button_for_more_anime_content{
+
+.button_for_more_anime_content {
   display: flex;
-    justify-content: center;
+  justify-content: center;
 }
-.more_anime_content{
+
+.more_anime_content {
   width: 10rem;
   height: 4rem;
   font-size: 2rem;
@@ -557,21 +572,25 @@ select{
   align-items: center;
   justify-content: center;
 }
-.oauthIcon{
+
+.oauthIcon {
   margin-right: 8px;
   font-size: 20px;
   margin-top: 2px;
 }
-hr{
+
+hr {
   height: 2px;
   background-color: gray !important;
   border: none;
 }
-.nameCred{
+
+.nameCred {
   display: flex;
   justify-content: space-between;
 }
-.userName{
+
+.userName {
   background-color: #535c68;
   height: 34px;
   padding: 6px;
@@ -584,7 +603,8 @@ hr{
   border-radius: 4px;
   outline: none;
 }
-.userGmail{
+
+.userGmail {
   background-color: #535c68;
   color: #fff;
   width: 100%;
@@ -596,16 +616,27 @@ hr{
   padding: 6px;
   outline: none;
 }
+::-webkit-scrollbar {
+  width: 5px !important;
+}
+::-webkit-scrollbar-track {
+  background: #34495e;
+}
+::-webkit-scrollbar-thumb {
+  background: black;
+}
 
 /* media queries for anime valley website */
 /* for navigation */
 @media only screen and (max-width:1000px) {
-  .website_title{
+  .website_title {
     left: 2%;
   }
-  .navbarToggle{
+
+  .navbarToggle {
     right: 2%;
   }
+
   .recommended_anime_desc {
     font-size: 1.2rem;
   }
@@ -664,7 +695,7 @@ hr{
 @media only screen and (max-width: 828px) {
 
   /* navigation and toggle design */
-  
+
 
   .closeIconHams {
     display: block;
@@ -673,9 +704,11 @@ hr{
     top: 10px;
     font-size: 40px;
   }
+
   .popularWidgets {
     display: block !important;
   }
+
   /* carousel desinging */
   html {
     font-size: 52%;
@@ -762,8 +795,25 @@ hr{
     font-size: 30px;
   }
 }
-@media only screen and (max-width: 446px){
-.navbarToggle{
-  width: 0vw;
-}
+
+@media only screen and (max-width: 446px) {
+  .firstNavbar{
+    justify-content: space-between;
+  }
+  .navbarToggle {
+    position: static;
+  }
+  .secondNavbar::-webkit-scrollbar {
+    width: 1rem !important;
+    height: 2px;
+  }
+  .secondNavbar::-webkit-scrollbar-track {
+    background: #e74c3c !important;
+  }
+  .secondNavbar::-webkit-scrollbar-thumb {
+    background: #bcc5cb;
+  }
+  li{
+    margin: 0px;
+  }
 }

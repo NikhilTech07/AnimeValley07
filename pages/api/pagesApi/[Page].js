@@ -3,8 +3,14 @@ import jsdom from "jsdom"
 const { JSDOM } = jsdom;
 const PageApi = async(req,res) => {
     const pageValue=req.query.pages
-    if (req.url==`/api/pagesApi/displayAnime?pages=${pageValue}`) {
-        res.status(200).json(await displayAnimePage())
+    if (req.url==`/api/pagesApi/recentAnime?pages=${pageValue}`) {
+        res.status(200).json(await displayAnimePage(pageValue))
+    }
+    else if (req.url==`/api/pagesApi/ongoingAnime?pages=${pageValue}`) {
+        res.status(200).json(await ongoingAnimePage(pageValue))
+    }
+    else if (req.url==`/api/pagesApi/animeMovie?pages=${pageValue}`) {
+        res.status(200).json(await animeMoviePage(pageValue))
     }
 }
 const displayAnimePage=async(pageNum)=>{

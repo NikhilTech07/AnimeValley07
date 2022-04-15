@@ -28,11 +28,13 @@ export const getServerSideProps = async (context) => {
 }
 const Index = ({carouselData}) => {
   const animeContainer = useRef();
-  const animeCarousel=useRef();
   const animeText=useRef();
+  const animeCarousel=useRef();
+  const moreContainer=useRef();
   const [animeDetails,SetanimeDetails]=useState({recentAnime:{},popularAnimeToday:{},popularAnimeWeek:{},popularAnimeMonth:{},ongoingAnime:{},animeMovie:{}});
   const [popularAnimeType, SetPopularAnimeType] = useState("today");
   const [animeContainerContent,SetanimeContainerContent]=useState("recentAnime")
+  let page=1;
   useEffect(async()=>{
     const recentAnimeRes=await fetch("/api/displayAnime",{
       method:"Post"
@@ -67,12 +69,13 @@ const Index = ({carouselData}) => {
       animeMovie:animeMovieData
     })
   },[])
-  const addPage = async () => {
+  const addPage = async (name) => {
+    page=page+1;
     try {
-      const res = await fetch("/api/pagesApi/displayAnime?pages=2");
-      const container=animeContainer.current;
+      console.log(page);
+      const res = await fetch(`/api/pagesApi/${name}?pages=${page}`);
+      const container=moreContainer.current;
       const data = await res.json();
-      console.log(data)
       data.map((val) => {
         let newAnimeCard=document.createElement('div');
         newAnimeCard.className='anime_card'
@@ -96,9 +99,12 @@ const Index = ({carouselData}) => {
   }
   const setContainer=(name)=>{
     const carousel=animeCarousel.current;
+    const container=moreContainer.current;
     const text=animeText.current;
     if (name!=='recentAnime') {
       carousel.style.display="none";
+      container.innerHTML=""
+      page=1;
       text.innerText=name
     }
     else{
@@ -205,8 +211,11 @@ const Index = ({carouselData}) => {
               )
             }):<p style={{color:"#fff",textAlign:"center"}}>Loading.....</p>}
           </main>
+          <main className={`animeContainer ${animeContainerContent}Container`} ref={moreContainer}>
+
+          </main>
           <div className="button_for_more_anime_content">
-            <button className="more_anime_content" onClick={() => addPage()}>More</button>
+            <button className="more_anime_content" onClick={() =>{addPage(`${animeContainerContent}`)}}>More</button>
           </div>
         </section>
         <aside className="popularContainer">
