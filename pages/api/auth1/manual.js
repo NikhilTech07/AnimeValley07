@@ -1,5 +1,5 @@
-import {ManualUser} from "../../../models/Schema";
-import ConnectDB from "../../../config/ConnectDB"
+import {ManualUser} from "../../../models/Schema.js";
+import ConnectDB from "../../../config/ConnectDB.js"
 ConnectDB();
 const manual=async(req,res)=>{
     const {firstName,secondName,Gmail}=req.body;

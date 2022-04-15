@@ -35,7 +35,7 @@ const Index = ({carouselData}) => {
   const [popularAnimeType, SetPopularAnimeType] = useState("today");
   const [animeContainerContent,SetanimeContainerContent]=useState("recentAnime")
   let page=1;
-  useEffect(async()=>{
+  const reloadPageFunc=async()=>{
     const recentAnimeRes=await fetch("/api/displayAnime",{
       method:"Post"
     });
@@ -68,7 +68,10 @@ const Index = ({carouselData}) => {
       ongoingAnime:ongoingAnimeData,
       animeMovie:animeMovieData
     })
-  },[])
+  }
+  useEffect(()=>{
+    reloadPageFunc()
+  },[reloadPageFunc])
   const addPage = async (name) => {
     page=page+1;
     try {
