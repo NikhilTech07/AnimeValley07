@@ -103,22 +103,6 @@ const SignUp = ({provider,user}) => {
                    Sign Up with Google
                   </button>
                 </div>
-                <div className="twitteroauth oauthProvider">
-                  <button className="oauthLink credButton" onClick={()=>signIn(provider.twitter.id)}>
-                  <div className="oauthIcon">
-                      <BsTwitter color="#130f40" /> 
-                    </div>
-                    Sign Up with Twitter
-                  </button>
-                </div>
-                <div className="instagramoauth oauthProvider">
-                  <button className="oauthLink credButton">
-                  <div className="oauthIcon">
-                  <BsInstagram color="#f1c40f"/>
-                    </div>
-                   Sign Up With Instagram
-                  </button>
-                </div>
               </div>
               <div className="dividerLine" style={{display:"flex",alignItems:"center",color:"grey"}}>
                 <hr style={{width:"18rem"}} />

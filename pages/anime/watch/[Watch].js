@@ -1,7 +1,8 @@
 import Nav from "../../../components/Nav";
 import Link from "next/link";
 import Image from "next/image";
-import {GiNextButton,GiPreviousButton} from "react-icons/gi"
+import {GiNextButton,GiPreviousButton} from "react-icons/gi";
+import { useRef } from "react";
 export const getServerSideProps = async ( context ) => {
     const url=context.req.headers.host
     try {
@@ -33,6 +34,11 @@ export const getServerSideProps = async ( context ) => {
 }
 
 const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, watchAnime }) => {
+    const TargetIframe=useRef();
+    const removeAdds=()=>{
+        const iframe=TargetIframe.current;
+        iframe.setAttribute("sandbox",'allow-scripts')
+    }
     return (
         <>
             <header>
@@ -45,7 +51,8 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                 </div>
                 <div className="animeWatchAndEpisodeContainer">
                     <div className="iframeContainer">
-                        <iframe id="iframe" rel="nofollow" src={animeIfameData[0]} style={{ width: "95%", height: "100%" }} allowFullScreen="true" frameBorder="0" marginWidth="0" marginHeight="0" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                        <iframe id="iframe" ref={TargetIframe} rel="nofollow" src={animeIfameData[0]} sandboxscrolling="no" style={{ width: "95%", height: "100%" }} allowFullScreen="true" frameBorder="0" marginWidth="0" marginHeight="0" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        onLoad={()=>removeAdds()}></iframe>
                     </div>
                     {/* <div className="player_func">
                         <div className="streaming_service">
@@ -73,7 +80,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                             {Array.from(Array(totalAnimeEpisodeData[0].Episode), (e, i) => {
                                 return <>
                                     <li key={i + 1}>
-                                        <Link href={`/anime/S1/watch/${watchAnime}?episode=${i + 1}`} passHref>
+                                        <Link href={`/anime/watch/${watchAnime}?episode=${i + 1}`} passHref>
                                             <a className="episode_number">
                                                 <p>{i + 1}</p>
                                             </a>
@@ -95,7 +102,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                         {recommendedAnimeData.slice(1).map((val) => {
                             return (
                                 <>
-                                    <Link href={`/anime/S1/${val.name}`} passHref>
+                                    <Link href={`/anime/${val.name}`} passHref>
                                         <div className="recommended_anime_card" key={val.name}  style={{cursor:"pointer"}}>
                                             <div className="recommended_anime_image">
                                                 <Image src={val.img} width="100px" height="100px" alt={val.name}></Image>

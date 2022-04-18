@@ -9,7 +9,7 @@ export default function App({
     // `session` comes from `getServerSideProps` or `getInitialProps`.
     // Avoids flickering/session loading on first load.
     <SessionProvider session={session}>
-      <NextNProgress options={{ showSpinner: false }} color="red" />
+      <NextNProgress options={{ showSpinner: false }} color="#3498db" />
       <Component {...pageProps} />
     </SessionProvider>
   )
