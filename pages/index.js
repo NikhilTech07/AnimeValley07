@@ -16,9 +16,29 @@ export const getServerSideProps = async (context) => {
       method: "Post"
     })
     const carouselData = await carouselRes.json();
+    const recentAnimeRes=await fetch(`http://${url}/api/displayAnime`,{
+      method:"Post"
+    });
+    const recentAnimeData=await recentAnimeRes.json();
+    const popularAnimeAsideTodayRes = await fetch(`http://${url}/api/popularAnimeListToday`, {
+      method: 'post'
+    });
+    const popularAnimeAsideTodayData = await popularAnimeAsideTodayRes.json();
+    const popularAnimeAsideWeekRes = await fetch(`http://${url}/api/popularAnimeListWeek`, {
+      method: 'post'
+    });
+    const popularAnimeAsideWeekData = await popularAnimeAsideWeekRes.json();
+    const popularAnimeAsideMonthRes = await fetch(`http://${url}/api/popularAnimeListMonth`, {
+      method: 'post'
+    });
+    const popularAnimeAsideMonthData = await popularAnimeAsideMonthRes.json();
     return{
       props:{
-        carouselData
+        carouselData,
+        popularAnimeAsideMonthData,
+        popularAnimeAsideWeekData,
+        popularAnimeAsideTodayData,
+        recentAnimeData,
       }
     }
   }
@@ -26,7 +46,7 @@ export const getServerSideProps = async (context) => {
     console.log("error")
   }
 }
-const Index = ({carouselData}) => {
+const Index = ({carouselData,recentAnimeData,popularAnimeAsideTodayData,popularAnimeAsideMonthData,popularAnimeAsideWeekData}) => {
   const animeContainer = useRef();
   const animeText=useRef();
   const animeCarousel=useRef();
@@ -38,10 +58,7 @@ const Index = ({carouselData}) => {
  
   useEffect(()=>{
     const reloadPageFunc=async()=>{
-      const recentAnimeRes=await fetch("/api/displayAnime",{
-        method:"Post"
-      });
-      const recentAnimeData=await recentAnimeRes.json();
+     
       const ongoingAnimeRes=await fetch("/api/ongoingAnime",{
         method:"Post"
       });
@@ -50,23 +67,8 @@ const Index = ({carouselData}) => {
         method:"Post"
       });
       const animeMovieData=await animeMovieRes.json();
-      const popularAnimeAsideTodayRes = await fetch(`/api/popularAnimeListToday`, {
-        method: 'post'
-      });
-      const popularAnimeAsideTodayData = await popularAnimeAsideTodayRes.json();
-      const popularAnimeAsideWeekRes = await fetch(`/api/popularAnimeListWeek`, {
-        method: 'post'
-      });
-      const popularAnimeAsideWeekData = await popularAnimeAsideWeekRes.json();
-      const popularAnimeAsideMonthRes = await fetch(`/api/popularAnimeListMonth`, {
-        method: 'post'
-      });
-      const popularAnimeAsideMonthData = await popularAnimeAsideMonthRes.json();
       SetanimeDetails({
         recentAnime:recentAnimeData,
-        popularAnimeToday:popularAnimeAsideTodayData,
-        popularAnimeWeek:popularAnimeAsideWeekData,
-        popularAnimeMonth:popularAnimeAsideMonthData,
         ongoingAnime:ongoingAnimeData,
         animeMovie:animeMovieData
       })
@@ -86,12 +88,12 @@ const Index = ({carouselData}) => {
         newAnimeCard.setAttribute("key",`${val.name}`)
         newAnimeCard.innerHTML = ` 
                            <a href="/anime/S1/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}">
-                           <div className="anime_image">
+                           <div class="anime_image">
                            <Image src=${val.img} width="100px" height="100px" alt={val.name}></Image>
                          </div>
-                         <div className="anime_desc">
-                           <p className="anime_title">${val.name}</p>
-                           <p className="anime_date">${val.date}</p>
+                         <div class="anime_desc">
+                           <p class="anime_title">${val.name}</p>
+                           <p class="anime_date">${val.date}</p>
                          </div>
                            <a/>
                           `
@@ -168,7 +170,7 @@ const Index = ({carouselData}) => {
               return (
                 <>
                   <SwiperSlide key={val.name}>
-                  <Link href={`/anime/S1/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
+                  <Link href={`/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
                     <a>
                     <div className="carousel_card">
                       <div className="carousel_image">
@@ -198,7 +200,7 @@ const Index = ({carouselData}) => {
             {animeDetails[`${animeContainerContent}`] ? Array.from(animeDetails[`${animeContainerContent}`]).map((val) => {
               return (
                 <>
-                  <Link href={`/anime/S1/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
+                  <Link href={`/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
                     <a>
                       <div className="anime_card" key={val.name}>
                         <div className="anime_image">
@@ -234,7 +236,7 @@ const Index = ({carouselData}) => {
           </div>
           <main className="popularAnimeList">
             {popularAnimeType === "today" && <div className="popular_anime_today">
-              {animeDetails.popularAnimeToday?Array.from(animeDetails.popularAnimeToday).map((val) => {
+              {popularAnimeAsideTodayData?popularAnimeAsideTodayData.map((val) => {
                 return (
                   <>
                     <PopularAnimeAside name={val.name} img={val.img} views={val.views} key={val.name} />
@@ -243,7 +245,7 @@ const Index = ({carouselData}) => {
               }):<p style={{color:"#fff",textAlign:"center"}}>Loading.....</p>}
             </div>}
             {popularAnimeType === "week" && <div className="popular_anime_week">
-              {animeDetails.popularAnimeWeek?Array.from(animeDetails.popularAnimeWeek).map((val) => {
+              {popularAnimeAsideWeekData?popularAnimeAsideWeekData.map((val) => {
                 return (
                   <>
                     <PopularAnimeAside name={val.name} img={val.img} views={val.views} key={val.name} />
@@ -252,7 +254,7 @@ const Index = ({carouselData}) => {
               }):<p style={{color:"#fff",textAlign:"center"}}>Loading.....</p>}
             </div>}
             {popularAnimeType === "month" && <div className="popular_anime_Month" >
-              {animeDetails.popularAnimeMonth?Array.from(animeDetails.popularAnimeMonth).map((val) => {
+              {popularAnimeAsideMonthData?popularAnimeAsideMonthData.map((val) => {
                 return (
                   <>
                     <PopularAnimeAside name={val.name} img={val.img} views={val.views} key={val.name} />

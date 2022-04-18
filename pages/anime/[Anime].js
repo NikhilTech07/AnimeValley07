@@ -1,10 +1,10 @@
 import Image from "next/image";
-import Nav from "../../../components/Nav";
+import Nav from "../../components/Nav";
 import { BsPlayCircleFill } from "react-icons/bs";
 import Link from "next/link";
 export const getServerSideProps = async (context) => {
   const url=context.req.headers.host
-  const anime = context.query.S1;
+  const anime = context.query.Anime;
   const userAnime = anime.toLowerCase().replaceAll(" ", "-").replaceAll("(", "").replaceAll(")", "").replaceAll(".", "").replaceAll(":-", "-")
   const userRes = await fetch(`http://${url}/api/info/${userAnime}`, {
     method: "post"
@@ -21,11 +21,11 @@ export const getServerSideProps = async (context) => {
     }
   }
 }
-const S1 = ({ userData, similarAnimeData }) => {
+const Anime = ({ userData, similarAnimeData }) => {
   return (
     <>
       <header>
-        <Nav />
+        <Nav bg="transparent"/>
       </header>
       <div className="containerForUserAnime">
         <div className="animePoster" style={{ backgroundImage: `url('${userData[0].img}')` }}></div>
@@ -36,7 +36,7 @@ const S1 = ({ userData, similarAnimeData }) => {
           <div className="userAnimeDetails">
             <p className="userAnimeName">{userData[0].name}</p>
             <div className="playButtonContainer">
-              <Link href={`/anime/S1/watch/${userData[0].name.toLowerCase()}?episode=1`}>
+              <Link href={`/anime/watch/${userData[0].name.toLowerCase()}?episode=1`}>
                 <a>
                 <button className="playButton">Play <BsPlayCircleFill /> </button>
                 </a>
@@ -55,12 +55,12 @@ const S1 = ({ userData, similarAnimeData }) => {
           <div className="box"></div>
           <p className="writtenAnimeText">Related Anime</p>
         </div>
-      <div className="RelatedAnime">
+      <div className="RelatedAnime" style={{width: "100%"}}>
         <main className="animeContainer">
         {similarAnimeData.map((val) => {
           return (
             <>
-             <Link href={`/anime/S1/${val.name}`}>
+             <Link href={`/anime/${val.name}`}>
               <a>
               <div className="anime_card" key={val.name}>
                 <div className="anime_image">
@@ -83,4 +83,4 @@ const S1 = ({ userData, similarAnimeData }) => {
   )
 }
 
-export default S1
+export default Anime

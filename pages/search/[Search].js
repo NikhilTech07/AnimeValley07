@@ -63,7 +63,7 @@ const Search = ({ GogoData, RushData, animeLandData, popularAnimeAsideMonthData,
             {GogoData.map((val) => {
               return (
                 <>
-                  <Link href={`/anime/S1/${val.name}`}>
+                  <Link href={`/anime/${val.name}`}>
                     <a key={val.name}>
                       <div className="anime_card" key={val.name}>
                         <div className="anime_image">
@@ -88,7 +88,7 @@ const Search = ({ GogoData, RushData, animeLandData, popularAnimeAsideMonthData,
             {RushData.map((val) => {
               return (
                 <>
-                  <Link href={`/anime/S1/${val.name}`}>
+                  <Link href={`/anime/${val.name}`}>
                     <a key={val.name}>
                       <div className="anime_card">
                         <div className="anime_image">
@@ -114,7 +114,7 @@ const Search = ({ GogoData, RushData, animeLandData, popularAnimeAsideMonthData,
             {animeLandData.map((val) => {
               return (
                 <>
-                  <Link href={`/anime/S1/${val.name}`}>
+                  <Link href={`/anime/${val.name}`}>
                     <a key={val.name}>
                       <div className="anime_card">
                         <div className="anime_image">

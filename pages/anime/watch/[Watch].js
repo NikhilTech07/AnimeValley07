@@ -1,4 +1,4 @@
-import Nav from "../../../../components/Nav";
+import Nav from "../../../components/Nav";
 import Link from "next/link";
 import Image from "next/image";
 import {GiNextButton,GiPreviousButton} from "react-icons/gi"

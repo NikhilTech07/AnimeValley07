@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MdAccountCircle ,MdOutlineWatchLater} from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
+import {AiTwotoneHome} from "react-icons/ai";
 import { IoCloseSharp ,IoNotifications } from "react-icons/io5";
 import {BiBookHeart } from "react-icons/bi"
 import { useRef } from "react";
@@ -8,7 +9,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Head from "next/head";
-const Nav = () => {
+const Nav = (props) => {
     const router = useRouter()
     const [searchAnime, setSearchAnime] = useState([]);
     const openButton = useRef(null);
@@ -43,9 +44,16 @@ const Nav = () => {
             <Head>
                 <title>Anime Valley</title>
             </Head>
-            <nav >
+            <nav style={{backgroundColor:`${props.bg}`}}>
                 <div className="firstNavbar">
-                    <div className="website_title">Anime<span>Valley</span></div>
+                    <div className="website_title">
+                        Anime<span>Valley</span>
+                        <Link href="/">
+                           <a>
+                           <AiTwotoneHome/> Home
+                            </a>
+                        </Link>
+                        </div>
                     <div className="navbarToggle" ref={navToggle}>
                         <div className="other_widgets_list">
                             <ul className="other_widgets_list">
@@ -87,7 +95,7 @@ const Nav = () => {
                         {searchAnime.length > 0 && searchAnime.map((val) => {
                             return (
                                 <>
-                                    <Link href={`/anime/S1/${val.name}`}>
+                                    <Link href={`/anime/${val.name}`}>
                                         <a>
                                             <div className="searchInput_anime_card">
                                                 <div className="searchInput_anime_Image">
