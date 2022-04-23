@@ -36,18 +36,21 @@ const SignUp = ({provider,user}) => {
       }
     })
   }
-  useEffect(async()=>{
-    document.title="Anime Valley"
-    if (user) {
-      const res=await fetch('http://localhost:3000/api/auth1/google',{
-        method:'POST',
-        body:JSON.stringify(user),
-        headers:{
-          "Accept":"application/json",
-          "Content-Type":"application/json"
-        }
-      })
+  useEffect(()=>{
+    async function pushData(){
+      document.title="Anime Valley"
+      if (user) {
+        const res=await fetch('http://localhost:3000/api/auth1/google',{
+          method:'POST',
+          body:JSON.stringify(user),
+          headers:{
+            "Accept":"application/json",
+            "Content-Type":"application/json"
+          }
+        })
+      }
     }
+    pushData();
   })
   const postChange=async(e)=>{
     if (credential.firstName===""||credential.secondName===""||credential.Gmail==="") {

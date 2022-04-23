@@ -42,7 +42,6 @@ export const getServerSideProps = async (context) => {
         popularAnimeAsideMonthData,
         popularAnimeAsideWeekData,
         popularAnimeAsideTodayData,
-        recentAnimeData,
       }
     }
   }
@@ -50,7 +49,7 @@ export const getServerSideProps = async (context) => {
     console.log("error")
   }
 }
-const Index = ({ carouselData, recentAnimeData, popularAnimeAsideTodayData, popularAnimeAsideMonthData, popularAnimeAsideWeekData }) => {
+const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMonthData, popularAnimeAsideWeekData }) => {
   const animeContainer = useRef();
   const animeText = useRef();
   const animeCarousel = useRef();
@@ -60,8 +59,11 @@ const Index = ({ carouselData, recentAnimeData, popularAnimeAsideTodayData, popu
   const [animeContainerContent, SetanimeContainerContent] = useState("recentAnime")
   const [animeDetails, SetanimeDetails] = useState({ recentAnime: {}, popularAnimeToday: {}, popularAnimeWeek: {}, popularAnimeMonth: {}, ongoingAnime: {}, animeMovie: {} });
   useEffect(() => {
-    async function reloadPageFunc(){
-  
+    async function reloadPageFunc() {
+      const recentAnimeRes = await fetch(`/api/displayAnime`, {
+        method: "Post"
+      });
+      const recentAnimeData = await recentAnimeRes.json();
       const ongoingAnimeRes = await fetch("/api/ongoingAnime", {
         method: "Post"
       });
@@ -77,7 +79,7 @@ const Index = ({ carouselData, recentAnimeData, popularAnimeAsideTodayData, popu
       })
     }
     reloadPageFunc()
-  }, [recentAnimeData])
+  }, [])
   const addPage = async (name) => {
     page = page + 1;
     try {
@@ -89,7 +91,7 @@ const Index = ({ carouselData, recentAnimeData, popularAnimeAsideTodayData, popu
         // newAnimeCardGroup.className = 'anime_card_details';
         // newAnimeCardGroup.style.position = "relative";
         // newAnimeCardGroup.setAttribute("key", `${val.name}`)
-        container.innerHTML+=` 
+        container.innerHTML += ` 
         <div class="anime_card_details" key={val.name} style="position:relative">
          <a href=/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}>
             <div class="anime_card">
@@ -103,11 +105,11 @@ const Index = ({ carouselData, recentAnimeData, popularAnimeAsideTodayData, popu
             </div>
           </a>
             <div class="button_anime_menu">
-                  <button class="anime_menu_icon" onclick="document.getElementsByClassName('anime_menu')[${index+newIndex}].style.display='block' " onblur="document.getElementsByClassName('anime_menu')[${index+newIndex}].style.display='none'">
+                  <button class="anime_menu_icon" onclick="document.getElementsByClassName('anime_menu')[${index + newIndex}].style.display='block' " onblur="document.getElementsByClassName('anime_menu')[${index + newIndex}].style.display='none'">
                   ${ReactDOMServer.renderToString(<HiDotsVertical />)}
                   </button>
             </div>
-            <div class="anime_menu" ref={animeMenu} onmouseleave="document.getElementsByClassName('anime_menu')[${index+newIndex}].style.display='none'">
+            <div class="anime_menu" ref={animeMenu} onmouseleave="document.getElementsByClassName('anime_menu')[${index + newIndex}].style.display='none'">
                       <ul class="anime_menu_items_widgets">
                         <li class="anime_menu_widgets">
                             <a href=/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}>
@@ -135,7 +137,7 @@ const Index = ({ carouselData, recentAnimeData, popularAnimeAsideTodayData, popu
     const carousel = animeCarousel.current;
     const container = moreContainer.current;
     const text = animeText.current;
-    newIndex=0;
+    newIndex = 0;
     if (name !== 'recentAnime') {
       carousel.style.display = "none";
       container.innerHTML = ""
