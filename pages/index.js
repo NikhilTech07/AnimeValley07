@@ -56,28 +56,28 @@ const Index = ({ carouselData, recentAnimeData, popularAnimeAsideTodayData, popu
   const animeCarousel = useRef();
   const animeMenu = useRef();
   const moreContainer = useRef();
-  const [animeDetails, SetanimeDetails] = useState({ recentAnime: {}, popularAnimeToday: {}, popularAnimeWeek: {}, popularAnimeMonth: {}, ongoingAnime: {}, animeMovie: {} });
   const [popularAnimeType, SetPopularAnimeType] = useState("today");
   const [animeContainerContent, SetanimeContainerContent] = useState("recentAnime")
-  const reloadPageFunc = async () => {
-
-    const ongoingAnimeRes = await fetch("/api/ongoingAnime", {
-      method: "Post"
-    });
-    const ongoingAnimeData = await ongoingAnimeRes.json();
-    const animeMovieRes = await fetch("/api/animeMovie", {
-      method: "Post"
-    });
-    const animeMovieData = await animeMovieRes.json();
-    SetanimeDetails({
-      recentAnime: recentAnimeData,
-      ongoingAnime: ongoingAnimeData,
-      animeMovie: animeMovieData
-    })
-  }
+  const [animeDetails, SetanimeDetails] = useState({ recentAnime: {}, popularAnimeToday: {}, popularAnimeWeek: {}, popularAnimeMonth: {}, ongoingAnime: {}, animeMovie: {} });
   useEffect(() => {
+    async function reloadPageFunc(){
+  
+      const ongoingAnimeRes = await fetch("/api/ongoingAnime", {
+        method: "Post"
+      });
+      const ongoingAnimeData = await ongoingAnimeRes.json();
+      const animeMovieRes = await fetch("/api/animeMovie", {
+        method: "Post"
+      });
+      const animeMovieData = await animeMovieRes.json();
+      SetanimeDetails({
+        recentAnime: recentAnimeData,
+        ongoingAnime: ongoingAnimeData,
+        animeMovie: animeMovieData
+      })
+    }
     reloadPageFunc()
-  }, [])
+  }, [recentAnimeData])
   const addPage = async (name) => {
     page = page + 1;
     try {
