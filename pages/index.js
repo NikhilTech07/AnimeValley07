@@ -1,6 +1,7 @@
 import Nav from "../components/Nav";
 import Link from "next/link";
 import PopularAnimeAside from "../components/PopularAnimeAside";
+import SearchBar from "../components/SearchBar";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { HiDotsVertical } from "react-icons/hi";
@@ -178,7 +179,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
           <Swiper
             effect={"coverflow"}
             grabCursor={true}
-            spaceBetween={30}
+            spaceBetween={95}
             loop={true}
             autoplay={{
               delay: 5000,
@@ -219,6 +220,9 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
               )
             }) : <p style={{ color: "#fff", textAlign: "center" }}>Loading.....</p>}
           </Swiper>
+        </div>
+        <div className="input_group">
+          <SearchBar/>
         </div>
       </header>
       <div className="megaContainer">

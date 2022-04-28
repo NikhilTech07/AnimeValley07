@@ -114,39 +114,36 @@ li {
 }
 
 .search_bar {
-  width: 100%;
-  height: 100vh;
-  display: none;
-  position: absolute;
-  top: 0%;
+  margin: auto;
+  width: 50rem;
+  display: block;
   z-index: 2;
-  background-color: #000;
 }
-.active {
-  display: flex !important;
-  align-items: center;
-  flex-direction: column;
+.input_group_box{
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
-
 .input_box {
   position: relative;
-  width: 54rem;
-  margin-top: 8%;
+  color: #fff;
 }
-
 .userInput {
-  width: 54rem;
-  height: 5rem;
+  width: 50rem;
+  height: 4.5rem;
   border-radius: 10px;
   padding: 10px;
-  outline: none;
-  font-size: 2rem;
+  border: 2px solid #fff;
+  background-color: transparent;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #fff;
+  text-transform: capitalize;
 }
 
 .search_bar_icon {
   width: 5rem;
-  height: 4.8rem;
-  background-color: #e74c3c;
+  height: 4rem;
   border-radius: 10px;
   position: absolute;
   right: 0px;
@@ -159,25 +156,14 @@ li {
 }
 
 .search_bar_inside_icon {
-  font-size: 30px;
+  font-size: 20px;
 }
-
-.close_button {
-  position: absolute;
-  right: 8%;
-  top: 12%;
-}
-
-.close_button_inside_div {
-  color: #fff;
-  font-size: 35px;
-  background-color: transparent;
-  border: none;
-  outline: none;
-}
-
 .searchAnimeResult {
   overflow: auto;
+  position: absolute;
+  z-index: 4;
+  background-color: black;
+  width: 50rem;
 }
 
 .searchAnimeResult::-webkit-scrollbar {
@@ -209,12 +195,12 @@ li {
   width: 90%;
   margin: auto;
   margin-top: 30px;
-  height: 38rem;
+  height: 35rem;
 }
 
 .swiper {
   width: 100%;
-  height: 38rem;
+  height: 35rem;
   padding-top: 20px;
   padding-bottom: 50px;
 }
@@ -222,22 +208,24 @@ li {
 .swiper-slide {
   background-position: center;
   background-size: cover;
-  width: 432px !important;
-  height: 286px !important;
-  -webkit-box-reflect: below 1px linear-gradient(transparent, transparent, #0006);
+  width: 320px !important;
+  height: 200px !important;
 }
-
+.carousel_image img{
+  height: 20rem !important;
+  width: 32rem !important;
+}
 .carousel_anime_details {
   color: #fff;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   text-align: center;
   margin-top: 10px;
 }
 
 .carousel_play_button {
-  width: 9rem;
+  width: 7.5rem;
   height: 3rem;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   background-color: #e74c3c;
   border: 0px;
   border-radius: 8px;
@@ -747,15 +735,6 @@ hr {
 
   /* navigation and toggle design */
 
-
-  .closeIconHams {
-    display: block;
-    position: absolute;
-    right: 20px;
-    top: 10px;
-    font-size: 40px;
-  }
-
   .popularWidgets {
     display: block !important;
   }
@@ -765,9 +744,6 @@ hr {
     font-size: 52%;
   }
 
-  .anime_carousel {
-    height: 30rem;
-  }
 
   .carousel_card {
     display: flex;
@@ -816,43 +792,17 @@ hr {
   nav {
     font-size: 2rem;
   }
-
-  .closeIconHams {
-    font-size: 30px;
-  }
-
-  .navbarToggle {
-    width: 57vw;
-  }
-
   .animeContainer {
     grid-template-columns: repeat(auto-fill, minmax(100px, 97px)) !important;
   }
-
-  .input_box {
-    width: 40rem;
-    margin-top: 12%;
-  }
-
-  .userInput {
-    width: 40rem;
-  }
-
   .userInput {
     top: 4%;
-  }
-
-  .close_button_inside_div {
-    font-size: 30px;
   }
 }
 
 @media only screen and (max-width: 446px) {
   .firstNavbar{
     justify-content: space-between;
-  }
-  .navbarToggle {
-    position: static;
   }
   .secondNavbar::-webkit-scrollbar {
     width: 1rem !important;
@@ -866,5 +816,17 @@ hr {
   }
   li{
     margin: 0px;
+  }
+  .search_bar{
+    width: 40rem;
+    margin: auto;
+    overflow: scroll;
+  }
+  .userInput{
+    width: 40rem;
+  }
+  .searchAnimeResult{
+    width: 40rem;
+    overflow: hidden;
   }
 }
