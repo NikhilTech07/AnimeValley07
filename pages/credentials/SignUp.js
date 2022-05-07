@@ -1,11 +1,8 @@
 import {getSession,getProviders,signIn} from "next-auth/react";
-import connectDB from "../../config/connectDB";
 import Link from "next/link";
 import { GoChevronLeft } from "react-icons/go";
 import {AiOutlineGoogle} from "react-icons/ai";
-import {BsInstagram} from "react-icons/bs";
 import { useEffect,useState } from "react";
-import {BsTwitter} from "react-icons/bs";
 export async function getServerSideProps(context) {
   const session = await getSession(context)
   const provider=await getProviders(context)
@@ -54,7 +51,7 @@ const SignUp = ({provider,user}) => {
   })
   const postChange=async(e)=>{
     if (credential.firstName===""||credential.secondName===""||credential.Gmail==="") {
-      alert("please Submit form")
+      alert("please Submit form correctly .....")
     }
     else{
       const res=await fetch('http://localhost:3000/api/auth1/manual',{
@@ -65,12 +62,18 @@ const SignUp = ({provider,user}) => {
           "Content-Type":"application/json"
         }
       })
+      const data=await res.json();
+      if (data.message=="User Already Exist Please Login .....") {
+        alert("User Already Exist Please Login .....");
+      }
+      else{
+        alert("Sign Up Successfull ....")
+      }
     }
-    e.preventDefault()
   }
   return (
     <>
-    {console.log(provider,user)}
+    {/* {console.log(provider,user)} */}
       <header style={{ height: "7rem" }}>
         <Link href="/">
           <a>
@@ -91,7 +94,7 @@ const SignUp = ({provider,user}) => {
             <div className="accountDetails" style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
               <p className="create">Create Account</p>
               <p className="loginOption">Already have an account ?
-              <Link href="/credientials/Login">
+              <Link href="/credentials/Login">
                 <a style={{marginLeft:"3px",color:"skyblue"}}>
               login
                 </a>
@@ -121,8 +124,8 @@ const SignUp = ({provider,user}) => {
                   <div className="gmailCred">
                     <input type="email" id="userGmail" className="userGmail userCredentials " name="Gmail" placeholder="Gmalil" onChange={(event)=>{settingCred(event)}} />
                   </div>
-                  <button className="credButton" onClick={(e)=>{postChange(e)}}>Sign Up with Gmail</button>
                 </form>
+                  <button className="credButton" onClick={(e)=>{postChange(e)}}>Sign Up with Gmail</button>
               </div>
             </div>
         </div>
