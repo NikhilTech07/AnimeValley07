@@ -2,11 +2,14 @@ import Link from "next/link";
 import { GoChevronLeft } from "react-icons/go";
 import {AiOutlineGoogle} from "react-icons/ai";
 import { useEffect,useState } from "react";
+import { useRouter } from 'next/router'
+import { useCookies } from "react-cookie";
+import swal from 'sweetalert';
 const Login= () => {
-  const [authType,setAuthType]=useState('')
+  const [authType,setAuthType]=useState('');
+  const router=useRouter();
+  const [cookie, setCookie] = useCookies(["jwt"])
   const [credential,setCredential]=useState({
-    firstName:"",
-    secondName:"",
     Gmail:""
     
   })
@@ -14,12 +17,58 @@ const Login= () => {
     const {name,value}=event.target;
     setCredential((preValue)=>{
       return{
-        ...preValue,
         [name]:value
       }
     })
   }
+  const setLoginData=async()=>{
+      if (credential.Gmail==="") {
+        alert("Please fill the form correctly")
+      }
+      else{
+        const res=await fetch("/api/auth1/manual_login",{
+          method:"POST",
+          body:JSON.stringify(credential),
+          headers:{
+            "Accept":"application/json",
+            "Content-Type":"application/json"
+          }
+        })
+        const data=await res.json();
+        console.log(data.message)
+        setCookie("jwt", JSON.stringify(data.result), {
+          path: "/",
+          maxAge: 3600, // Expires after 1hr
+          sameSite: true,
+        })
+        if (data.message=='You are Login in ...') {
+          swal({
+            title:`You are Login in ...`,
+            buttons:"Okk"
+          }).then(()=>{
+            router.push("/")
+          })
+        }
+        else if(data.message=='Please Sign in first'){
+          swal({
+            title:`Please Sign in to Anime Valley`,
+            text:"Navigate To Sign Up Page",
+            buttons:"Click Here"
+          }).then(()=>{
+            router.push("/api/auth/signin")
+          })
+        }
+        else{
+          swal({
+            title:`Error Has Occured`,
+            text:"Please try again after Some time",
+            buttons:"okkk"
+          })
+        }
+      }
+  }
   return (
+    
     <>
     {/* {console.log(provider,user)} */}
       <header style={{ height: "7rem" }}>
@@ -40,7 +89,7 @@ const Login= () => {
               <p >Anime Valley</p>
             </div>
             <div className="accountDetails" style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
-              <p className="create">Create Account</p>
+              <p className="create">Login</p>
               <p className="loginOption">New to AnimeValley ?
               <Link href="/api/auth/signin">
                 <a style={{marginLeft:"3px",color:"skyblue"}}>
@@ -69,7 +118,7 @@ const Login= () => {
                     <input type="email" id="userGmail" className="userGmail userCredentials " name="Gmail" placeholder="Gmalil" onChange={(event)=>{settingCred(event)}} />
                   </div>
                 </form>
-                  <button className="credButton">Login In with Gmail</button>
+                  <button className="credButton" onClick={()=>setLoginData()}>Login In with Gmail</button>
               </div>
             </div>
         </div>

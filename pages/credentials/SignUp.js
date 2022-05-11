@@ -1,8 +1,10 @@
 import {getSession,getProviders,signIn} from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from 'next/router'
 import { GoChevronLeft } from "react-icons/go";
 import {AiOutlineGoogle} from "react-icons/ai";
 import { useEffect,useState } from "react";
+import swal from 'sweetalert';
 export async function getServerSideProps(context) {
   const session = await getSession(context)
   const provider=await getProviders(context)
@@ -18,6 +20,7 @@ export async function getServerSideProps(context) {
 }
 const SignUp = ({provider,user}) => {
   const [authType,setAuthType]=useState('')
+  const router = useRouter();
   const [credential,setCredential]=useState({
     firstName:"",
     secondName:"",
@@ -37,7 +40,7 @@ const SignUp = ({provider,user}) => {
     async function pushData(){
       document.title="Anime Valley"
       if (user) {
-        const res=await fetch('http://localhost:3000/api/auth1/google',{
+        const res=await fetch('/api/auth1/google',{
           method:'POST',
           body:JSON.stringify(user),
           headers:{
@@ -54,7 +57,7 @@ const SignUp = ({provider,user}) => {
       alert("please Submit form correctly .....")
     }
     else{
-      const res=await fetch('http://localhost:3000/api/auth1/manual',{
+      const res=await fetch('/api/auth1/manual',{
         method:'POST',
         body:JSON.stringify(credential),
         headers:{
@@ -63,11 +66,22 @@ const SignUp = ({provider,user}) => {
         }
       })
       const data=await res.json();
-      if (data.message=="User Already Exist Please Login .....") {
-        alert("User Already Exist Please Login .....");
+      if (data.message) {
+        swal({
+          title:`${data.message}`,
+          text:"Please Navigate To login Page",
+          buttons:"Click Here"
+        })
+        .then(()=>{
+          router.push("/credentials/Login")
+        })
       }
       else{
-        alert("Sign Up Successfull ....")
+        swal({
+          title:`Error Has Occured`,
+          text:"Please Navigate To login Page",
+          buttons:"Click Here"
+        })
       }
     }
   }

@@ -35,7 +35,11 @@ const Nav = (props) => {
                                     <button className="bell_icon widgets_button"><IoNotifications /></button>
                                 </li>
                                 <li className="account_widgets">
-                                    <button className="account_widgets widgets_button"><MdAccountCircle /></button>
+                                    <Link href="/api/auth/signin">
+                                        <a>
+                                        <button className="account_widgets widgets_button"><MdAccountCircle /></button>
+                                        </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>

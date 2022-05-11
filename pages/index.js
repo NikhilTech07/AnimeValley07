@@ -37,12 +37,22 @@ export const getServerSideProps = async (context) => {
       method: 'post'
     });
     const popularAnimeAsideMonthData = await popularAnimeAsideMonthRes.json();
+    // const authRes=await fetch(`http://${url}/api/auth2/Token_Authentication`,{
+    //   method:'GET',
+    //   headers:{
+    //     Accept:"application/json",
+    //     'Content-type':'application/json'
+    //   },
+    //   credentials:"include"
+    // })
+    // const authData=await authRes.json();
     return {
       props: {
         carouselData,
         popularAnimeAsideMonthData,
         popularAnimeAsideWeekData,
         popularAnimeAsideTodayData,
+        // authData
       }
     }
   }
@@ -153,6 +163,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
   return (
     <>
       <header>
+        {/* {console.log(authData)} */}
         <Nav />
         <div className="secondNavbar">
           <div className="widgets_list">
