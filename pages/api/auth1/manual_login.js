@@ -1,6 +1,6 @@
 import {ManualUser} from "../../../models/Schema.js";
-import ConnectDB from "../../../config/ConnectDB.js";
-ConnectDB();
+import connectDB from "../../../config/ConnectDB.js";
+connectDB();
 
 const manual_login=async(req,res)=>{
     const {Gmail}=req.body;

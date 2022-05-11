@@ -1,5 +1,5 @@
 const mongoose=require('mongoose')
-const ConnectDB = () => {
+const connectDB = () => {
     mongoose.connect(process.env.DB_URL)
     .then(()=>{
         console.log("connection...")
@@ -7,4 +7,4 @@ const ConnectDB = () => {
         throw err;
     })
 }
-export default ConnectDB;
+export default connectDB;
