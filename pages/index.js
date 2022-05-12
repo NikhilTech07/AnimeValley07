@@ -37,22 +37,12 @@ export const getServerSideProps = async (context) => {
       method: 'post'
     });
     const popularAnimeAsideMonthData = await popularAnimeAsideMonthRes.json();
-    // const authRes=await fetch(`http://${url}/api/auth2/Token_Authentication`,{
-    //   method:'GET',
-    //   headers:{
-    //     Accept:"application/json",
-    //     'Content-type':'application/json'
-    //   },
-    //   credentials:"include"
-    // })
-    // const authData=await authRes.json();
     return {
       props: {
         carouselData,
         popularAnimeAsideMonthData,
         popularAnimeAsideWeekData,
         popularAnimeAsideTodayData,
-        // authData
       }
     }
   }
@@ -68,7 +58,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
   const moreContainer = useRef();
   const [popularAnimeType, SetPopularAnimeType] = useState("today");
   const [animeContainerContent, SetanimeContainerContent] = useState("recentAnime")
-  const [animeDetails, SetanimeDetails] = useState({ recentAnime: {}, popularAnimeToday: {}, popularAnimeWeek: {}, popularAnimeMonth: {}, ongoingAnime: {}, animeMovie: {} });
+  const [animeDetails, SetanimeDetails] = useState({ recentAnime: {}, popularAnimeToday: {}, popularAnimeWeek: {}, popularAnimeMonth: {}, ongoingAnime: {}, animeMovie: {},authData:{} });
   useEffect(() => {
     async function reloadPageFunc() {
       const recentAnimeRes = await fetch(`/api/displayAnime`, {
@@ -83,10 +73,19 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
         method: "Post"
       });
       const animeMovieData = await animeMovieRes.json();
+      const authRes=await fetch("/api/auth2/Token_Authentication",{
+        method:"GET",
+        headers:{
+          Accept:"application/json",
+          "Content-Type":"application/json"
+        }
+      })
+      const authNewDatat=await authRes.json();
       SetanimeDetails({
         recentAnime: recentAnimeData,
         ongoingAnime: ongoingAnimeData,
-        animeMovie: animeMovieData
+        animeMovie: animeMovieData,
+        authData:authNewDatat
       })
     }
     reloadPageFunc()
@@ -98,10 +97,6 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
       const res = await fetch(`/api/pagesApi/${name}?pages=${page}`);
       const data = await res.json();
       data.map((val, index) => {
-        // let newAnimeCardGroup = document.createElement('div');
-        // newAnimeCardGroup.className = 'anime_card_details';
-        // newAnimeCardGroup.style.position = "relative";
-        // newAnimeCardGroup.setAttribute("key", `${val.name}`)
         container.innerHTML += ` 
         <div class="anime_card_details" key={val.name} style="position:relative">
          <a href=/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}>
@@ -163,7 +158,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
   return (
     <>
       <header>
-        {/* {console.log(authData)} */}
+        {console.log(animeDetails)}
         <Nav />
         <div className="secondNavbar">
           <div className="widgets_list">

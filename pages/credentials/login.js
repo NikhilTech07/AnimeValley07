@@ -3,12 +3,10 @@ import { GoChevronLeft } from "react-icons/go";
 import {AiOutlineGoogle} from "react-icons/ai";
 import { useEffect,useState } from "react";
 import { useRouter } from 'next/router'
-import { useCookies } from "react-cookie";
 import swal from 'sweetalert';
 const Login= () => {
   const [authType,setAuthType]=useState('');
   const router=useRouter();
-  const [cookie, setCookie] = useCookies(["jwt"])
   const [credential,setCredential]=useState({
     Gmail:""
     
@@ -35,12 +33,6 @@ const Login= () => {
           }
         })
         const data=await res.json();
-        console.log(data.message)
-        setCookie("jwt", JSON.stringify(data.result), {
-          path: "/",
-          maxAge: 3600, // Expires after 1hr
-          sameSite: true,
-        })
         if (data.message=='You are Login in ...') {
           swal({
             title:`You are Login in ...`,

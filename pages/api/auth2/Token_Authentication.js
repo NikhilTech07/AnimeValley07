@@ -1,5 +1,5 @@
 const jwt=require("jsonwebtoken");
-import {ManualUser} from "../../../models/Schema.js";
+import {ManualUser} from "../../../models/schema.js";
 export default async function Token_Authentication(req, res) {
     switch (req.method) {
         case "GET":
@@ -11,8 +11,14 @@ export default async function Token_Authentication(req, res) {
   }
 
   const fetchUserInfo=async(req,res)=>{
-    const token=req.cookies.jwt;
-    const verifyToken=jwt.verify(token,process.env.JWT_SECRET);
-    const User=ManualUser.findOne({_id:verifyToken._id,"tokens.token":token});
-    return User;
+    try {
+        const token=req.cookies.AnimeValley_token;
+        const verifyToken=jwt.verify(token,process.env.JWT_SECRET);
+        const User=ManualUser.findOne({_id:verifyToken._id,"tokens.token":token});
+        return User;
+    } catch (error) {
+        return{
+            "message":error
+        }
+    }
 }
