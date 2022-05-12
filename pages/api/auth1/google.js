@@ -1,5 +1,5 @@
-import {GoogleUser} from "../../../models/Schema.js";
-import connectDB from "../../../config/ConnectDB.js"
+import {GoogleUser} from "../../../models/schema.js";
+import connectDB from "../../../config/connectDB.js"
 connectDB();
 const google=async(req,res)=>{
     const {name,email,image}=req.body;
