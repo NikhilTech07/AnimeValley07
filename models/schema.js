@@ -14,6 +14,7 @@ const GoogleSchema=new mongoose.Schema({
 const UserSchema=new mongoose.Schema({
     firstName:{type:String,required:true},
     secondName:{type:String,required:true},
+    img:{type:String,required:true},
     Gmail:{type:String,required:true},
     tokens:[{
         token:{

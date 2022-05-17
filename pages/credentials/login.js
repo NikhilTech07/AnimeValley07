@@ -3,6 +3,7 @@ import { GoChevronLeft } from "react-icons/go";
 import {AiOutlineGoogle} from "react-icons/ai";
 import { useEffect,useState } from "react";
 import { useRouter } from 'next/router'
+import Head from "next/head";
 import swal from 'sweetalert';
 const Login= () => {
   const [authType,setAuthType]=useState('');
@@ -63,6 +64,9 @@ const Login= () => {
     
     <>
     {/* {console.log(provider,user)} */}
+    <Head>
+      <title>Anime Valley</title>
+    </Head>
       <header style={{ height: "7rem" }}>
         <Link href="/">
           <a>

@@ -1,5 +1,7 @@
 const jwt=require("jsonwebtoken");
+import connectDB from "../../../config/connectDB"
 import {ManualUser} from "../../../models/schema.js";
+connectDB();
 export default async function Token_Authentication(req, res) {
     switch (req.method) {
         case "GET":
@@ -14,7 +16,7 @@ export default async function Token_Authentication(req, res) {
     try {
         const token=req.cookies.AnimeValley_token;
         const verifyToken=jwt.verify(token,process.env.JWT_SECRET);
-        const User=ManualUser.findOne({_id:verifyToken._id,"tokens.token":token});
+        const User=ManualUser.findOne({_id:verifyToken._id});
         return User;
     } catch (error) {
         return{

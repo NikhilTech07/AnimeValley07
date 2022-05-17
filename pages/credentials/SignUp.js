@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useRouter } from 'next/router'
 import { GoChevronLeft } from "react-icons/go";
 import {AiOutlineGoogle} from "react-icons/ai";
+import Image from "next/image";
+import Head from "next/head";
 import { useEffect,useState } from "react";
 import swal from 'sweetalert';
 export async function getServerSideProps(context) {
@@ -24,9 +26,13 @@ const SignUp = ({provider,user}) => {
   const [credential,setCredential]=useState({
     firstName:"",
     secondName:"",
+    img:"",
     Gmail:""
     
   })
+  const ImageArray=["https://i.ibb.co/3pqsrTy/gundam.png","https://i.ibb.co/HCsPms5/icons8-kakashi-hatake-48.png","https://i.ibb.co/5nDMy3z/icons8-naruto-48.pngV",
+                    "https://i.ibb.co/nszDrM7/kakashi.png","https://i.ibb.co/6wp5fMq/otaku.png"
+                    ,"https://i.ibb.co/t2CDRFQ/ghost.png","https://i.ibb.co/xq6KkQb/Dragonball-Goku.png"]
   const settingCred=(event)=>{
     const {name,value}=event.target;
     setCredential((preValue)=>{
@@ -53,7 +59,7 @@ const SignUp = ({provider,user}) => {
     pushData();
   })
   const postChange=async(e)=>{
-    if (credential.firstName===""||credential.secondName===""||credential.Gmail==="") {
+    if (credential.firstName===""||credential.secondName===""||credential.Gmail===""||credential.img=="") {
       alert("please Submit form correctly .....")
     }
     else{
@@ -88,6 +94,9 @@ const SignUp = ({provider,user}) => {
   return (
     <>
     {/* {console.log(provider,user)} */}
+    <Head>
+      <title>Anime Valley</title>
+    </Head>
       <header style={{ height: "7rem" }}>
         <Link href="/">
           <a>
@@ -139,6 +148,25 @@ const SignUp = ({provider,user}) => {
                     <input type="email" id="userGmail" className="userGmail userCredentials " name="Gmail" placeholder="Gmalil" onChange={(event)=>{settingCred(event)}} />
                   </div>
                 </form>
+                <div className="icon_section">
+                  <p style={{fontSize:"1.3rem",margin:"8px 0px 15px 0px",textAlign:"center",letterSpacing:"1px",fontWeight:"bold"}}>Please Select Any Icon</p>
+                    <div className="icon_box" style={{display:"flex",justifyContent:"space-around"}}>
+                      {ImageArray.map((val)=>{
+                        return(
+                          <>
+                            <div className="Image_option">
+                              <Image src={val} alt={val} height="40x" width="40px" onClick={(val)=>setCredential((preValue)=>{
+                                  return{
+                                    ...preValue,
+                                    img:val.target.alt
+                                  }
+                              })}/>
+                            </div>
+                          </>
+                        )
+                    })}
+                    </div>
+                </div>
                   <button className="credButton" onClick={(e)=>{postChange(e)}}>Sign Up with Gmail</button>
               </div>
             </div>

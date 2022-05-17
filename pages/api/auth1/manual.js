@@ -2,13 +2,13 @@ import {ManualUser} from "../../../models/schema.js";
 import connectDB from "../../../config/connectDB.js";
 connectDB();
 const manual=async(req,res)=>{
-    const {firstName,secondName,Gmail}=req.body;
+    const {firstName,secondName,Gmail,img}=req.body;
     let oldUser=await ManualUser.findOne({Gmail});
     if (oldUser) {
         console.log('user exist')
         res.status(200).json({"message":"User Already Exist"})
     } else {
-        const user=new ManualUser({firstName,secondName,Gmail});
+        const user=new ManualUser({firstName,secondName,Gmail,img});
         const token=await user.generateAuthToken();
 
         const result=await user.save();

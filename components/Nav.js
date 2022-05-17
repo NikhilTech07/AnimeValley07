@@ -2,13 +2,30 @@ import Link from "next/link";
 import { MdAccountCircle ,MdOutlineWatchLater} from "react-icons/md";
 import {AiTwotoneHome} from "react-icons/ai";
 import { IoNotifications } from "react-icons/io5";
+import { useEffect,useState } from "react";
 import {BiBookHeart } from "react-icons/bi"
 import { useRef } from "react";
 import Head from "next/head";
 const Nav = (props) => {
+    const newUserData=async()=>{
+        const authRes=await fetch("/api/auth2/Token_Authentication",{
+            method:"GET",
+            headers:{
+              Accept:"application/json",
+              "Content-Type":"application/json"
+            }
+          })
+          const authNewData=await authRes.json();
+          setUserData(authNewData)
+    }
+    useEffect(()=>{
+        newUserData();
+    },[])
+    const [userData,setUserData]=useState([]);
     const navToggle = useRef(null);
     return (
         <>
+        {console.log(userData)}
             <Head>
                 <title>Anime Valley</title>
             </Head>
@@ -35,11 +52,15 @@ const Nav = (props) => {
                                     <button className="bell_icon widgets_button"><IoNotifications /></button>
                                 </li>
                                 <li className="account_widgets">
-                                    <Link href="/api/auth/signin">
+                                  {userData ?<Link href="/credentials/Account">
+                                    <a>
+                                        <div className="userAccount img" style={{backgroundImage:`url("${userData.img}")`}}></div>
+                                    </a>
+                                  </Link>   :<Link href="/api/auth/signin">
                                         <a>
                                         <button className="account_widgets widgets_button"><MdAccountCircle /></button>
                                         </a>
-                                    </Link>
+                                    </Link>}
                                 </li>
                             </ul>
                         </div>
