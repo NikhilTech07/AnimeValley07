@@ -1,27 +1,27 @@
 import Link from "next/link";
 import { GoChevronLeft } from "react-icons/go";
 import {AiOutlineGoogle} from "react-icons/ai";
-import { useEffect,useState } from "react";
+import { useState } from "react";
 import { useRouter } from 'next/router'
 import Head from "next/head";
 import swal from 'sweetalert';
 const Login= () => {
-  const [authType,setAuthType]=useState('');
   const router=useRouter();
   const [credential,setCredential]=useState({
-    Gmail:""
-    
+    Gmail:"",
+    Password:null
   })
   const settingCred=(event)=>{
     const {name,value}=event.target;
     setCredential((preValue)=>{
       return{
+        ...preValue,
         [name]:value
       }
     })
   }
   const setLoginData=async()=>{
-      if (credential.Gmail==="") {
+      if (credential.Gmail===""||credential.Password==null) {
         alert("Please fill the form correctly")
       }
       else{
@@ -40,6 +40,13 @@ const Login= () => {
             buttons:"Okk"
           }).then(()=>{
             router.push("/")
+          })
+        }
+        else if(data.message=="Incorrect Password"){
+          swal({
+            title:`Incorrect Password`,
+            text:"Please write correct password",
+            buttons:"Click Here"
           })
         }
         else if(data.message=='Please Sign in first'){
@@ -111,7 +118,10 @@ const Login= () => {
               <div className="loginWithGmailOption">
                 <form autoComplete="off">
                   <div className="gmailCred">
-                    <input type="email" id="userGmail" className="userGmail userCredentials " name="Gmail" placeholder="Gmalil" onChange={(event)=>{settingCred(event)}} />
+                    <input type="email" id="userGmail" className="userGmail userCredentials extendInputArea " name="Gmail" placeholder="Gmalil" onChange={(event)=>{settingCred(event)}} />
+                  </div>
+                  <div className="passwordCred">
+                    <input type="password" id="userPassword" className="userPassword userCredentials extendInputArea" name="Password" placeholder="Password" onChange={(event)=>{settingCred(event)}}/>
                   </div>
                 </form>
                   <button className="credButton" onClick={()=>setLoginData()}>Login In with Gmail</button>

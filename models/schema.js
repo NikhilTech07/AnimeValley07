@@ -1,4 +1,5 @@
-const mongoose=require('mongoose');
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 const jwt=require("jsonwebtoken");
 const GoogleSchema=new mongoose.Schema({
     name:{type:String,required:true},
@@ -16,6 +17,7 @@ const UserSchema=new mongoose.Schema({
     secondName:{type:String,required:true},
     img:{type:String,required:true},
     Gmail:{type:String,required:true},
+    Password:{type:String,required:true},
     tokens:[{
         token:{
             type:String,
@@ -34,6 +36,12 @@ UserSchema.methods.generateAuthToken= async function(){
         console.log(error)
     }
 }
+
+UserSchema.pre("save",async function(next){
+    this.Password=await bcrypt.hash(this.Password,10);
+    next();
+})
+
 GoogleSchema.methods.generateOAuthToken=async function(){
     try {
         const token=jwt.sign({_id:this._id.toString()},process.env.JWT_SECRET);

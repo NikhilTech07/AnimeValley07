@@ -6,6 +6,7 @@ export default async function Token_Authentication(req, res) {
     switch (req.method) {
         case "GET":
             res.status(200).json(await fetchUserInfo(req,res));
+            res.end();
             break;
         default:
             break;
@@ -20,7 +21,7 @@ export default async function Token_Authentication(req, res) {
         return User;
     } catch (error) {
         return{
-            "message":error
+            "message":"invalid"
         }
     }
 }

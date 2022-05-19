@@ -6,5 +6,6 @@ const google=async(req,res)=>{
     const user=new GoogleUser({name,email,img:image});
     const result=await user.save();
     res.status(200).json(result)
+    res.end();
 }
 export default google;

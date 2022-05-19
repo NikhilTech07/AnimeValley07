@@ -13,9 +13,9 @@ const Account = () => {
     })
     const data=await res.json();
     console.log(data);
-    if(data.message==="All Clear"){
+    if(data.message==="Successfully logged out"){
       swal({
-        title:"You are Login in ..",
+        title:"You are Log out ..",
         buttons:"Okkk"
       }).then(()=>{
         router.push("/")

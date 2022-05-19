@@ -21,13 +21,14 @@ export async function getServerSideProps(context) {
   }
 }
 const SignUp = ({provider,user}) => {
-  const [authType,setAuthType]=useState('')
   const router = useRouter();
   const [credential,setCredential]=useState({
     firstName:"",
     secondName:"",
     img:"",
-    Gmail:""
+    Gmail:"",
+    Password:null,
+    ConfirmPassword:null
     
   })
   const ImageArray=["https://i.ibb.co/3pqsrTy/gundam.png","https://i.ibb.co/HCsPms5/icons8-kakashi-hatake-48.png","https://i.ibb.co/5nDMy3z/icons8-naruto-48.pngV",
@@ -61,6 +62,9 @@ const SignUp = ({provider,user}) => {
   const postChange=async(e)=>{
     if (credential.firstName===""||credential.secondName===""||credential.Gmail===""||credential.img=="") {
       alert("please Submit form correctly .....")
+    }
+    else if(credential.Password!==credential.ConfirmPassword){
+      alert("password doesn't matched")
     }
     else{
       const res=await fetch('/api/auth1/manual',{
@@ -145,7 +149,13 @@ const SignUp = ({provider,user}) => {
                   <input type="name" id="userSecondName" className="userName userCredentials" name="secondName"  placeholder="second name" onChange={(event)=>settingCred(event)}/>
                   </div>
                   <div className="gmailCred">
-                    <input type="email" id="userGmail" className="userGmail userCredentials " name="Gmail" placeholder="Gmalil" onChange={(event)=>{settingCred(event)}} />
+                    <input type="email" id="userGmail" className="userGmail userCredentials extendInputArea " name="Gmail" placeholder="Gmalil" onChange={(event)=>{settingCred(event)}} />
+                  </div>
+                  <div className="passwordCred">
+                    <input type="password" id="userPassword" className="userPassword userCredentials extendInputArea" name="Password" placeholder="Password" onChange={(event)=>{settingCred(event)}}/>
+                  </div>
+                  <div className="confirmPasswordCred">
+                  <input type="password" id="userConfirmPassword" className="userConfirmPassword userCredentials extendInputArea" name="ConfirmPassword" placeholder="Confirm Password" onChange={(event)=>{settingCred(event)}}/>
                   </div>
                 </form>
                 <div className="icon_section">
