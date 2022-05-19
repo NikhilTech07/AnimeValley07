@@ -5,6 +5,7 @@ const SearchApi = async (req, res) => {
     const query = req.query.name.replaceAll(" ", "%20");
     if (req.url === `/api/search/gogo?name=${query}`) {
         res.status(200).json(await searchAnimeGogo(req.query.name))
+        res.end()
     }
     else if (req.url === `/api/search/animeLand?name=${query}`) {
         res.status(200).json(await searchAnimeLand(req.query.name))
