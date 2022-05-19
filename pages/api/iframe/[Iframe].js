@@ -16,7 +16,7 @@ const gogoIframe=async(anime,ep)=>{
         })
         return videoLink;
     } catch (error) {
-        console.log(error)
+        console.log("error")
     }
 }
 const rushIframe=async(anime,eps)=>{
