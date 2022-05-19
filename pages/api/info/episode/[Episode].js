@@ -4,6 +4,7 @@ const { JSDOM } = jsdom;
 const Episode = async(req,res) => {
     const query = req.query.Episode.replaceAll(" ", "%20");
     res.status(200).json(await totalEpisode(query))
+    res.end();
 }
 const totalEpisode=async(anime)=>{
     let animeInfo=[]

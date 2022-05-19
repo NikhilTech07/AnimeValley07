@@ -4,7 +4,8 @@ const { JSDOM } = jsdom;
 const IframeReceiver = async(req,res) => {
 const anime=req.query.Iframe
 const episode=req.query.episode
-  res.status(200).json(await gogoIframe(anime,episode))
+  res.status(200).json(await gogoIframe(anime,episode));
+  res.end();
 }
 const gogoIframe=async(anime,ep)=>{
     const videoLink=[]

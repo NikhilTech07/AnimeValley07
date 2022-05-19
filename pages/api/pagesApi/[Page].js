@@ -12,6 +12,7 @@ const PageApi = async(req,res) => {
     else if (req.url==`/api/pagesApi/animeMovie?pages=${pageValue}`) {
         res.status(200).json(await animeMoviePage(pageValue))
     }
+    res.end();
 }
 const displayAnimePage=async(pageNum)=>{
     let animePageResult=[]

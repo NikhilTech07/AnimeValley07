@@ -4,6 +4,7 @@ const { JSDOM } = jsdom;
 const Info = async(req,res) => {
   const query=req.query.Info.toLowerCase().replaceAll(" ", "-").replaceAll("(", "").replaceAll(")", "").replaceAll(".", "").replaceAll(":-", "-")
   res.status(200).json(await InfoAnime(query))
+  res.end();
 }
 const InfoAnime=async(anime)=>{
     const AnimeInformation=[];

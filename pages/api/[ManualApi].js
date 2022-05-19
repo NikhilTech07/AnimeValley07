@@ -24,6 +24,7 @@ const ManualApi = async(req,res) => {
   else if(req.url==="/api/carouselAnime"){
       res.status(200).json(await carouselAnimeInfo())
   }
+  res.end();
 }
 
 // api list

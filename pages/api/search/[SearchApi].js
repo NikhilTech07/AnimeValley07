@@ -12,6 +12,7 @@ const SearchApi = async (req, res) => {
     else if (req.url === `/api/search/rush?name=${query}`) {
         res.status(200).json(await searchAnimeRush(req.query.name))
     }
+    res.end();
 }
 const searchAnimeGogo = async (anime) => {
     const serachAnimeList = []
