@@ -20,15 +20,13 @@ const manual_login=async(req,res)=>{
                 path:"/"
             }))
             res.status(200).json({"message":"You are Login in ..."})
-            res.end();
          } else {
              res.status(200).json({"message":"Incorrect Password"})
-             res.end();
          }
         } else {
         res.status(200).json({"message":"Please Sign in first"})
-        res.end();
     }
+    res.end();
 }
 
 export default manual_login;

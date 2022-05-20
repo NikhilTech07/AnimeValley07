@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import { Autoplay, EffectCoverflow } from "swiper";
+import { getSession,getProviders } from "next-auth/react";
 import { FaPlay } from "react-icons/fa";
 import { useState, useRef, useEffect } from "react";
 let page = 1;
@@ -50,7 +51,7 @@ export const getServerSideProps = async (context) => {
     console.log("error")
   }
 }
-const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMonthData, popularAnimeAsideWeekData }) => {
+const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMonthData, popularAnimeAsideWeekData}) => {
   const animeContainer = useRef();
   const animeText = useRef();
   const animeCarousel = useRef();
@@ -80,12 +81,12 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
           "Content-Type":"application/json"
         }
       })
-      const authNewDatat=await authRes.json();
+      const authNewData=await authRes.json();
       SetanimeDetails({
         recentAnime: recentAnimeData,
         ongoingAnime: ongoingAnimeData,
         animeMovie: animeMovieData,
-        authData:authNewDatat
+        authData:authNewData
       })
     }
     reloadPageFunc()
@@ -158,8 +159,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
   return (
     <>
       <header>
-        {console.log(animeDetails)}
-        <Nav />
+        <Nav/>
         <div className="secondNavbar">
           <div className="widgets_list">
             <ul className="widgets_link">

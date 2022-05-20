@@ -1,25 +1,48 @@
 import Link from "next/link";
 import { GoChevronLeft } from "react-icons/go";
 import {AiOutlineGoogle} from "react-icons/ai";
-import { useState } from "react";
+import { getSession,getProviders,signIn } from "next-auth/react";
 import { useRouter } from 'next/router'
 import Head from "next/head";
+import { useEffect } from "react";
 import swal from 'sweetalert';
-const Login= () => {
-  const router=useRouter();
-  const [credential,setCredential]=useState({
-    Gmail:"",
-    Password:null
-  })
-  const settingCred=(event)=>{
-    const {name,value}=event.target;
-    setCredential((preValue)=>{
-      return{
-        ...preValue,
-        [name]:value
-      }
-    })
+export async function getServerSideProps(context) {
+  const session = await getSession(context)
+  const provider=await getProviders(context)
+  if (!session) {
+    return {
+      props: {provider}
+    }
   }
+  const { user } = session;
+  return {
+    props: { user,provider },
+  }
+}
+
+const Login= ({user,provider}) => {
+  const router=useRouter();
+  async function pushData(){
+    document.title="Anime Valley"
+    if (user) {
+      const res=await fetch('/api/auth1/google',{
+        method:'POST',
+        body:JSON.stringify(user),
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json"
+        }
+      })
+      const data=await res.json();
+      if (data.message=="User Already Exist") {
+        router.push("/")
+      }
+    }
+  }
+  useEffect(()=>{
+    pushData();
+  },[])
+ 
   const setLoginData=async()=>{
       if (credential.Gmail===""||credential.Password==null) {
         alert("Please fill the form correctly")
@@ -70,7 +93,6 @@ const Login= () => {
   return (
     
     <>
-    {/* {console.log(provider,user)} */}
     <Head>
       <title>Anime Valley</title>
     </Head>

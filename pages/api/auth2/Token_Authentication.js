@@ -6,11 +6,11 @@ export default async function Token_Authentication(req, res) {
     switch (req.method) {
         case "GET":
             res.status(200).json(await fetchUserInfo(req,res));
-            res.end();
             break;
         default:
             break;
     }
+    res.end();
   }
 
   const fetchUserInfo=async(req,res)=>{

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import {signOut} from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from 'next/router'
@@ -29,6 +30,7 @@ const Account = () => {
     }
   }
   const [userData, setUserData] = useState();
+  const [isLoggin,setIsLoggin]=useState();
   const userAuth = async () => {
     const authRes = await fetch("/api/auth2/Token_Authentication", {
       method: "GET",
@@ -38,7 +40,13 @@ const Account = () => {
       }
     })
     const authData = await authRes.json();
-    setUserData(authData)
+    if (authData.message!=="invalid") {
+      setUserData(authData)
+      setIsLoggin(true)
+    }
+    else{
+      setIsLoggin(false)
+    }
   }
   useEffect(() => {
     userAuth()
@@ -60,7 +68,7 @@ const Account = () => {
           </a>
         </Link>
       </header>
-      {userData ? <div className="userDatacontainer">
+      {isLoggin==true && <div className="userDatacontainer">
         <div className="userImg">
           <Image src={userData.img} height="100px" width="100px" alt={userData.img} />
         </div>
@@ -83,7 +91,36 @@ const Account = () => {
         <div className="signOutButtonContainer">
           <button className="signOut credButton" style={{width:"200px"}} onClick={()=>deleteCooke()}>Sign Out</button>
         </div>
-      </div> : <div><p>Hello World</p></div>}
+      </div>}
+      {isLoggin=="auth" && <div className="userDatacontainer">
+        <div className="userImg">
+          <Image src={user.image} height="100px" width="100px" alt={user.image} />
+        </div>
+        <div className="userDataInfoContainer">
+          <div className="userDataName">
+            Name : {user.name}
+          </div>
+          <div className="userDataGmail">
+            Gmail : {user.email}
+          </div>
+          <div className='userAnimeInfo'>
+            <div className="userFavouriteListContainer">
+              Total Anime in Favourite List : 0
+            </div>
+            <div className="userWatchListContainer">
+              Total Anime in Watch List : 0
+            </div>
+          </div>
+        </div>
+        <div className="signOutButtonContainer">
+          <button className="signOut credButton" style={{width:"200px"}} onClick={()=>signOut()}>Sign Out</button>
+        </div>
+      </div>}
+      {isLoggin==false && 
+      <div className="notAccount" style={{color:"#fff",fontSize:"3rem",width:"100%",height:"50vh",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+        <p>User is not log in with AnimeValley.</p>
+        <p style={{marginTop:"20px"}}>Please <Link href="/credentials/Login"><a style={{color:"blue"}}><u>Log in</u></a></Link></p>
+        </div>}
     </>
   )
 }

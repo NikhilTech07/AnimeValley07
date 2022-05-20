@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { BiBookHeart } from "react-icons/bi"
 import { useRef } from "react";
 import Head from "next/head";
+import Image from "next/image";
 const Nav = (props) => {
     const newUserData = async () => {
         const authRes = await fetch("/api/auth2/Token_Authentication", {
@@ -15,11 +16,13 @@ const Nav = (props) => {
                 "Content-Type": "application/json"
             }
         })
-        const authNewData = await authRes.json();
-        setUserData(authNewData)
-        console.log(authNewData.img)
-        if (authNewData.img) {
+        const authData = await authRes.json();
+        setUserData(authData)
+        if (authData.message!=="invalid") {
             setLoggin(true)
+        }
+        else if(props.img){
+            setLoggin("auth")
         }
     }
     useEffect(() => {
@@ -56,11 +59,14 @@ const Nav = (props) => {
                                     <button className="bell_icon widgets_button"><IoNotifications /></button>
                                 </li>
                                 <li className="account_widgets">
-                                    {isLoggin ? <Link href="/credentials/Account">
+                                   {isLoggin==true && <Link href="/credentials/Account">
                                         <a>
-                                            <div className="userAccount img" style={{ backgroundImage: `url("${userData.img}")` }}></div>
+                                            <div className="userAccount img" > 
+                                             <Image src={userData.img} width="80px" height="80px" alt="Account img" className="rounded_accountImg"/>
+                                            </div>
                                         </a>
-                                    </Link> : <Link href="/api/auth/signin">
+                                    </Link>}
+                                    {isLoggin==false && <Link href="/api/auth/signin">
                                         <a>
                                             <button className="account_widgets widgets_button"><MdAccountCircle /></button>
                                         </a>

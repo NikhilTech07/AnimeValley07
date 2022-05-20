@@ -21,6 +21,7 @@ export async function getServerSideProps(context) {
   }
 }
 const SignUp = ({provider,user}) => {
+  const [isLoggin,setIsLoggin]=useState(false);
   const router = useRouter();
   const [credential,setCredential]=useState({
     firstName:"",
@@ -43,21 +44,38 @@ const SignUp = ({provider,user}) => {
       }
     })
   }
-  useEffect(()=>{
-    async function pushData(){
-      document.title="Anime Valley"
-      if (user) {
-        const res=await fetch('/api/auth1/google',{
-          method:'POST',
-          body:JSON.stringify(user),
-          headers:{
-            "Accept":"application/json",
-            "Content-Type":"application/json"
-          }
-        })
-      }
+  async function pushData(){
+    document.title="Anime Valley"
+    if (user) {
+      const res=await fetch('/api/auth1/google',{
+        method:'POST',
+        body:JSON.stringify(user),
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json"
+        }
+      })
     }
+  }
+  async function getUserData(){
+    const authRes=await fetch("/api/auth2/Token_Authentication",{
+      method:"GET",
+      headers:{
+        Accept:"application/json",
+        "Content-Type":"application/json"
+      }
+    })
+    const authNewData=await authRes.json();
+    if (authNewData.message!=="invalid") {
+      setIsLoggin(true)
+    }
+    else if(user){
+      setIsLoggin(true)
+    }
+  }
+  useEffect(()=>{
     pushData();
+    getUserData();
   })
   const postChange=async(e)=>{
     if (credential.firstName===""||credential.secondName===""||credential.Gmail===""||credential.img=="") {
@@ -97,7 +115,6 @@ const SignUp = ({provider,user}) => {
   }
   return (
     <>
-    {/* {console.log(provider,user)} */}
     <Head>
       <title>Anime Valley</title>
     </Head>
@@ -113,7 +130,7 @@ const SignUp = ({provider,user}) => {
           </a>
         </Link>
       </header>
-      <div className="loginContainer" style={{ height: "50rem", display: "flex", justifyContent: "center",alignItems:"center" }}>
+      {isLoggin==false && <div className="loginContainer" style={{ height: "50rem", display: "flex", justifyContent: "center",alignItems:"center" }}>
         <div className="loginCard" style={{color:"#fff"}}>
             <div className="websiteAccountName">
               <p >Anime Valley</p>
@@ -181,7 +198,13 @@ const SignUp = ({provider,user}) => {
               </div>
             </div>
         </div>
-      </div>
+      </div>}
+      {isLoggin==true &&
+        <div className=" Account" style={{color:"#fff",fontSize:"3rem",width:"100%",height:"50vh",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+        <p>User is already login with AnimeValley.</p>
+        <p style={{marginTop:"20px"}}>Please click here to visit <Link href="/credentials/Account"><a style={{color:"blue"}}><u>Account</u></a></Link></p>
+        </div>
+      }
     </>
   )
 }

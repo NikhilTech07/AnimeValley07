@@ -52,6 +52,6 @@ GoogleSchema.methods.generateOAuthToken=async function(){
         console.log(error)
     }
 }
-const GoogleUser=mongoose.models.GoogleUserAuth || mongoose.model('GoogleUserAuth', GoogleSchema);
-const ManualUser=mongoose.models.UserAuth||mongoose.model("UserAuth",UserSchema)
-module.exports={GoogleUser,ManualUser}
+const GoogleUser=mongoose.models.AnimeValley_User || mongoose.model('AnimeValley_User', GoogleSchema);
+const ManualUser=mongoose.models.AnimeValley_User||mongoose.model("AnimeValley_User",UserSchema)
+module.exports={ManualUser,GoogleUser}

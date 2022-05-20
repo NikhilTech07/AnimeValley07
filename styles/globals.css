@@ -659,7 +659,6 @@ hr {
   font-size: 26px;
   width: 42px;
   height: 43px;
-  background-color: #fff;
   border-radius: 11px;
   background-size: 35px;
   background-repeat: no-repeat;
@@ -692,6 +691,9 @@ hr {
 }
 .userDataName{
   text-transform: capitalize;
+}
+.rounded_accountImg{
+  border-radius: 17px;
 }
 /* media queries for anime valley website */
 /* for navigation */

@@ -25,7 +25,7 @@ const SearchBar = () => {
     }
     return (
         <>
-            <div className="search_bar ">
+            <div className="search_bar" style={{marginTop:"15px"}}>
                <div className="input_group_box">
                <div className="input_box">
                     <input type='text' className="userInput" id="navSearchBar" placeholder="Search" autoComplete="off" onChange={() => { search() }} ref={searchValue} onKeyUp={event => {
