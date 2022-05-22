@@ -5,6 +5,7 @@ import { IoNotifications } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { BiBookHeart } from "react-icons/bi"
 import { useRef } from "react";
+import swal from "sweetalert";
 import Head from "next/head";
 import Image from "next/image";
 const Nav = (props) => {
@@ -27,7 +28,14 @@ const Nav = (props) => {
     }
     useEffect(() => {
         newUserData();
-    }, [])
+    }, []);
+    const showAccountAlert=(text)=>{
+        swal({
+            title:"User is Not login",
+            text:`please login to Anime Valley to access ${text} list`,
+            buttons:"Okk"
+        })
+    }
     const [userData, setUserData] = useState();
     const [isLoggin, setLoggin] = useState(false)
     const navToggle = useRef(null);
@@ -50,18 +58,22 @@ const Nav = (props) => {
                         <div className="other_widgets_list">
                             <ul className="other_widgets_list">
                                 <li className="favourite_widgets">
-                                    <Link href={"/container/Favourite"}>
+                                    {isLoggin==true && <Link href={"/container/Favourite"}>
                                     <a>
                                     <button className="favourite_icon widgets_button"><BiBookHeart /></button>
                                     </a>
-                                    </Link>
+                                    </Link>}
+                                    {isLoggin==false &&
+                                   <button className="watch_later_icon widgets_button" onClick={()=>showAccountAlert("Favourite")}><BiBookHeart /></button>}
                                 </li>
                                 <li className="watch_later_widgets">
-                                   <Link href={"/container/WatchList"}>
+                                   {isLoggin==true && <Link href={"/container/WatchList"}>
                                    <a>
                                    <button className="watch_later_icon widgets_button"><MdOutlineWatchLater /></button>
                                    </a>
-                                   </Link>
+                                   </Link>}
+                                   {isLoggin==false && <button className="watch_later_icon widgets_button" onClick={()=>showAccountAlert('Watch')}><MdOutlineWatchLater /></button>}
+
                                 </li>
                                 <li className="notification_widgets">
                                     <button className="bell_icon widgets_button"><IoNotifications /></button>
