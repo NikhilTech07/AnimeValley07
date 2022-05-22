@@ -74,46 +74,22 @@ const Account = () => {
         </div>
         <div className="userDataInfoContainer">
           <div className="userDataName">
-            Name : {userData.firstName + " " + userData.secondName}
+            Name : {userData.name}
           </div>
           <div className="userDataGmail">
-            Gmail : {userData.Gmail}
+            Gmail : {userData.email}
           </div>
           <div className='userAnimeInfo'>
             <div className="userFavouriteListContainer">
-              Total Anime in Favourite List : 0
+              Total Anime in Favourite List : {userData.Favourite.length} Anime
             </div>
             <div className="userWatchListContainer">
-              Total Anime in Watch List : 0
+              Total Anime in Watch List : {userData.WatchList.length} Anime
             </div>
           </div>
         </div>
         <div className="signOutButtonContainer">
           <button className="signOut credButton" style={{width:"200px"}} onClick={()=>deleteCooke()}>Sign Out</button>
-        </div>
-      </div>}
-      {isLoggin=="auth" && <div className="userDatacontainer">
-        <div className="userImg">
-          <Image src={user.image} height="100px" width="100px" alt={user.image} />
-        </div>
-        <div className="userDataInfoContainer">
-          <div className="userDataName">
-            Name : {user.name}
-          </div>
-          <div className="userDataGmail">
-            Gmail : {user.email}
-          </div>
-          <div className='userAnimeInfo'>
-            <div className="userFavouriteListContainer">
-              Total Anime in Favourite List : 0
-            </div>
-            <div className="userWatchListContainer">
-              Total Anime in Watch List : 0
-            </div>
-          </div>
-        </div>
-        <div className="signOutButtonContainer">
-          <button className="signOut credButton" style={{width:"200px"}} onClick={()=>signOut()}>Sign Out</button>
         </div>
       </div>}
       {isLoggin==false && 

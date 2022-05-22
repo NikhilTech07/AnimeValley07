@@ -5,6 +5,8 @@ const GoogleSchema=new mongoose.Schema({
     name:{type:String,required:true},
     email:{type:String,required:true},
     img:{type:String,required:true},
+    Favourite:{type:Array,required:true},
+    WatchList:{type:Array,required:true},
     tokens:[{
         token:{
             type:String,
@@ -18,6 +20,8 @@ const UserSchema=new mongoose.Schema({
     img:{type:String,required:true},
     Gmail:{type:String,required:true},
     Password:{type:String,required:true},
+    Favourite:{type:Array,required:true},
+    WatchList:{type:Array,required:true},
     tokens:[{
         token:{
             type:String,

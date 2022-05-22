@@ -69,8 +69,8 @@ const SignUp = ({provider,user}) => {
     if (authNewData.message!=="invalid") {
       setIsLoggin(true)
     }
-    else if(user){
-      setIsLoggin(true)
+    else{
+      setIsLoggin(false)
     }
   }
   useEffect(()=>{

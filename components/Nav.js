@@ -50,10 +50,18 @@ const Nav = (props) => {
                         <div className="other_widgets_list">
                             <ul className="other_widgets_list">
                                 <li className="favourite_widgets">
+                                    <Link href={"/container/Favourite"}>
+                                    <a>
                                     <button className="favourite_icon widgets_button"><BiBookHeart /></button>
+                                    </a>
+                                    </Link>
                                 </li>
                                 <li className="watch_later_widgets">
-                                    <button className="watch_later_icon widgets_button"><MdOutlineWatchLater /></button>
+                                   <Link href={"/container/WatchList"}>
+                                   <a>
+                                   <button className="watch_later_icon widgets_button"><MdOutlineWatchLater /></button>
+                                   </a>
+                                   </Link>
                                 </li>
                                 <li className="notification_widgets">
                                     <button className="bell_icon widgets_button"><IoNotifications /></button>

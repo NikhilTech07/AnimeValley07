@@ -25,7 +25,7 @@ const Login= ({user,provider}) => {
   async function pushData(){
     document.title="Anime Valley"
     if (user) {
-      const res=await fetch('/api/auth1/google',{
+      const res=await fetch('/api/auth1/google_login',{
         method:'POST',
         body:JSON.stringify(user),
         headers:{

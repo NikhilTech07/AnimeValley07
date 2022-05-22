@@ -44,6 +44,7 @@ export const getServerSideProps = async (context) => {
         popularAnimeAsideMonthData,
         popularAnimeAsideWeekData,
         popularAnimeAsideTodayData,
+        url
       }
     }
   }
@@ -51,7 +52,7 @@ export const getServerSideProps = async (context) => {
     console.log("error")
   }
 }
-const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMonthData, popularAnimeAsideWeekData}) => {
+const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMonthData, popularAnimeAsideWeekData,url}) => {
   const animeContainer = useRef();
   const animeText = useRef();
   const animeCarousel = useRef();
@@ -134,7 +135,6 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
     }
   }
   const showAnimeMenu = (Index) => {
-    console.log(document.getElementsByClassName("anime_menu")[Index].innerHTML)
     document.getElementsByClassName("anime_menu")[Index].style.display = "block";
   }
   const hideAnimeMenu = (Index) => {
@@ -155,6 +155,42 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
       carousel.style.display = "block";
     }
     SetanimeContainerContent(name);
+  }
+  const addToFavourite=async([data_img,data_name,data_target])=>{
+    const anime_link=data_target.nativeEvent.path[4].getElementsByTagName("a")[0].href.replaceAll(`http://${url}`,'');
+    const anime_info={
+      _id:animeDetails.authData._id,
+      type:"favourite",
+      data_info:{ data_img,
+                data_name,
+                anime_link}
+    }
+    const res=await fetch("/api/auth2/UpdateDocument",{
+      method:"POST",
+      body:JSON.stringify(anime_info),
+      headers:{
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+      }
+    })
+  }
+  const addToWatchList=async([data_img,data_name,data_target])=>{
+    const anime_link=data_target.nativeEvent.path[4].getElementsByTagName("a")[0].href.replaceAll(`http://${url}`,'');
+    const anime_info={
+      _id:animeDetails.authData._id,
+      type:"watchlist",
+      data_info:{ data_img,
+                data_name,
+                anime_link}
+    }
+    const res=await fetch("/api/auth2/UpdateDocument",{
+      method:"POST",
+      body:JSON.stringify(anime_info),
+      headers:{
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+      }
+    })
   }
   return (
     <>
@@ -208,7 +244,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
               return (
                 <>
                   <SwiperSlide key={val.name}>
-                    <Link href={`/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
+                    <Link  href={`/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
                       <a>
                         <div className="carousel_card">
                           <div className="carousel_image">
@@ -256,7 +292,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
                       </a>
                     </Link>
                     <div className="button_anime_menu">
-                      <button className="anime_menu_icon" onClick={() => { showAnimeMenu(Index) }} onBlur={() => hideAnimeMenu(Index)}><HiDotsVertical /></button>
+                      <button className="anime_menu_icon" onClick={() => { showAnimeMenu(Index) }}><HiDotsVertical /></button>
                     </div>
                     <div className="anime_menu" ref={animeMenu} onMouseLeave={() => hideAnimeMenu(Index)}>
                       <ul className="anime_menu_items_widgets">
@@ -265,8 +301,12 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
                             <a>Play</a>
                           </Link>
                         </li>
-                        <li className="anime_menu_widgets">Add to Favourite</li>
-                        <li className="anime_menu_widgets">Add to Watch Later</li>
+                        <li className="anime_menu_widgets">
+                          <button onClick={(e)=>addToFavourite([val.img,val.name,e])}>Add to Favourite</button>
+                        </li>
+                        <li className="anime_menu_widgets">
+                          <button onClick={(e)=>addToWatchList([val.img,val.name,e])}>Add to WatchList</button>
+                        </li>
                       </ul>
                     </div>
                   </div>
