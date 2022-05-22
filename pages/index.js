@@ -61,35 +61,35 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
   const [popularAnimeType, SetPopularAnimeType] = useState("today");
   const [animeContainerContent, SetanimeContainerContent] = useState("recentAnime")
   const [animeDetails, SetanimeDetails] = useState({ recentAnime: {}, popularAnimeToday: {}, popularAnimeWeek: {}, popularAnimeMonth: {}, ongoingAnime: {}, animeMovie: {},authData:{} });
+  async function reloadPageFunc() {
+    const recentAnimeRes = await fetch(`/api/displayAnime`, {
+      method: "Post"
+    });
+    const recentAnimeData = await recentAnimeRes.json();
+    const ongoingAnimeRes = await fetch("/api/ongoingAnime", {
+      method: "Post"
+    });
+    const ongoingAnimeData = await ongoingAnimeRes.json();
+    const animeMovieRes = await fetch("/api/animeMovie", {
+      method: "Post"
+    });
+    const animeMovieData = await animeMovieRes.json();
+    const authRes=await fetch("/api/auth2/Token_Authentication",{
+      method:"GET",
+      headers:{
+        Accept:"application/json",
+        "Content-Type":"application/json"
+      }
+    })
+    const authNewData=await authRes.json();
+    SetanimeDetails({
+      recentAnime: recentAnimeData,
+      ongoingAnime: ongoingAnimeData,
+      animeMovie: animeMovieData,
+      authData:authNewData
+    })
+  }
   useEffect(() => {
-    async function reloadPageFunc() {
-      const recentAnimeRes = await fetch(`/api/displayAnime`, {
-        method: "Post"
-      });
-      const recentAnimeData = await recentAnimeRes.json();
-      const ongoingAnimeRes = await fetch("/api/ongoingAnime", {
-        method: "Post"
-      });
-      const ongoingAnimeData = await ongoingAnimeRes.json();
-      const animeMovieRes = await fetch("/api/animeMovie", {
-        method: "Post"
-      });
-      const animeMovieData = await animeMovieRes.json();
-      const authRes=await fetch("/api/auth2/Token_Authentication",{
-        method:"GET",
-        headers:{
-          Accept:"application/json",
-          "Content-Type":"application/json"
-        }
-      })
-      const authNewData=await authRes.json();
-      SetanimeDetails({
-        recentAnime: recentAnimeData,
-        ongoingAnime: ongoingAnimeData,
-        animeMovie: animeMovieData,
-        authData:authNewData
-      })
-    }
     reloadPageFunc()
   }, [])
   const addPage = async (name) => {
