@@ -30,7 +30,8 @@ const ManualApi = async(req,res) => {
 // api list
 
 const displayAnime=async()=>{
-    const DisplayAnimeList=[]
+    const DisplayAnimeList=[];
+    const name="nikhil";
     try {
         const response=await got('https://gogoplay1.com');
         const data=new JSDOM(response.body);
