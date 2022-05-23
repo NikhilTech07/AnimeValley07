@@ -38,12 +38,32 @@ export const getServerSideProps = async (context) => {
       method: 'post'
     });
     const popularAnimeAsideMonthData = await popularAnimeAsideMonthRes.json();
+    const ongoingAnimeRes = await fetch(`http://${url}/api/ongoingAnime`, {
+      method: "Post"
+    });
+    const ongoingAnimeData = await ongoingAnimeRes.json();
+    const animeMovieRes = await fetch(`http://${url}/api/animeMovie`, {
+      method: "Post"
+    });
+    const animeMovieData = await animeMovieRes.json();
+    const authRes=await fetch(`http://${url}/api/auth2/Token_Authentication`,{
+      method:"GET",
+      headers:{
+        Accept:"application/json",
+        "Content-Type":"application/json"
+      }
+    })
+    const authNewData=await authRes.json();
     return {
       props: {
         carouselData,
         popularAnimeAsideMonthData,
         popularAnimeAsideWeekData,
         popularAnimeAsideTodayData,
+        ongoingAnimeData,
+        animeMovieData,
+        authNewData,
+        recentAnimeData,
         url
       }
     }
@@ -52,7 +72,7 @@ export const getServerSideProps = async (context) => {
     console.log("error")
   }
 }
-const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMonthData, popularAnimeAsideWeekData,url}) => {
+const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMonthData, popularAnimeAsideWeekData,animeMovieData,ongoingAnimeData,authNewData,recentAnimeData,url}) => {
   const animeContainer = useRef();
   const animeText = useRef();
   const animeCarousel = useRef();
@@ -61,36 +81,13 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
   const [popularAnimeType, SetPopularAnimeType] = useState("today");
   const [animeContainerContent, SetanimeContainerContent] = useState("recentAnime")
   const [animeDetails, SetanimeDetails] = useState({ recentAnime: {}, popularAnimeToday: {}, popularAnimeWeek: {}, popularAnimeMonth: {}, ongoingAnime: {}, animeMovie: {},authData:{} });
-  async function reloadPageFunc() {
-    const recentAnimeRes = await fetch(`/api/displayAnime`, {
-      method: "Post"
-    });
-    const recentAnimeData = await recentAnimeRes.json();
-    const ongoingAnimeRes = await fetch("/api/ongoingAnime", {
-      method: "Post"
-    });
-    const ongoingAnimeData = await ongoingAnimeRes.json();
-    const animeMovieRes = await fetch("/api/animeMovie", {
-      method: "Post"
-    });
-    const animeMovieData = await animeMovieRes.json();
-    const authRes=await fetch("/api/auth2/Token_Authentication",{
-      method:"GET",
-      headers:{
-        Accept:"application/json",
-        "Content-Type":"application/json"
-      }
-    })
-    const authNewData=await authRes.json();
+  useEffect(() => {
     SetanimeDetails({
       recentAnime: recentAnimeData,
       ongoingAnime: ongoingAnimeData,
       animeMovie: animeMovieData,
       authData:authNewData
     })
-  }
-  useEffect(() => {
-    reloadPageFunc()
   }, [])
   const addPage = async (name) => {
     page = page + 1;
@@ -157,6 +154,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
     SetanimeContainerContent(name);
   }
   const addToFavourite=async([data_img,data_name,data_target])=>{
+    console.log(animeDetails.authData)
     const anime_link=data_target.nativeEvent.path[4].getElementsByTagName("a")[0].href.replaceAll(`http://${url}`,'');
     const anime_info={
       _id:animeDetails.authData._id,
@@ -194,6 +192,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
   }
   return (
     <>
+    {console.log(url)}
       <header>
         <Nav/>
         <div className="secondNavbar">

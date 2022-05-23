@@ -10,11 +10,12 @@ const episode=req.query.episode
 const gogoIframe=async(anime,ep)=>{
     const videoLink=[]
     try {
-        const gogo=await got(`https://gogoanime.fi/${anime}-episode-${ep}`);
+        const gogo=await got(`https://gogoanime.sk/${anime}-episode-${ep}`);
         const gogoWeb=new JSDOM(gogo.body);
         gogoWeb.window.document.querySelectorAll(".anime_muti_link ul li a").forEach((val)=>{
             videoLink.push(val.getAttribute('data-video'))
         })
+        console.log(videoLink);
         return videoLink;
     } catch (error) {
         console.log("error")

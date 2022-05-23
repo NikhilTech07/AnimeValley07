@@ -1,7 +1,8 @@
 import Nav from "../../../components/Nav";
 import Link from "next/link";
 import Image from "next/image";
-import {GiNextButton,GiPreviousButton} from "react-icons/gi";
+import {AiFillHeart,AiFillForward,AiFillBackward} from "react-icons/ai";
+import {MdOutlinePlaylistAdd} from "react-icons/md";
 import { useRef } from "react";
 export const getServerSideProps = async ( context ) => {
     const url=context.req.headers.host
@@ -17,6 +18,14 @@ export const getServerSideProps = async ( context ) => {
         const recommendedAnimeRes = await fetch(`http://${url}/api/search/gogo?name=${watchAnime}`, {
             method: "post"
         })
+        const authRes=await fetch(`http://${url}/api/auth2/Token_Authentication`,{
+      method:"GET",
+      headers:{
+        Accept:"application/json",
+        "Content-Type":"application/json"
+      }
+    })
+    const authData=await authRes.json();
         const animeIfameData = await animeIfameRes.json()
         const totalAnimeEpisodeData = await totalAnimeEpisodeRes.json()
         const recommendedAnimeData = await recommendedAnimeRes.json()
@@ -25,7 +34,9 @@ export const getServerSideProps = async ( context ) => {
                 animeIfameData,
                 totalAnimeEpisodeData,
                 recommendedAnimeData,
-                watchAnime
+                watchAnime,
+                Episode,
+                authData
             }
         }
     } catch (error) {
@@ -33,12 +44,35 @@ export const getServerSideProps = async ( context ) => {
     }
 }
 
-const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, watchAnime }) => {
+const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, watchAnime,Episode,authData }) => {
     const TargetIframe=useRef();
-    const removeAdds=()=>{
-        const iframe=TargetIframe.current;
-        iframe.setAttribute("sandbox",'allow-scripts')
+    // const removeAdds=()=>{
+    //     const iframe=TargetIframe.current;
+    //     iframe.setAttribute("sandbox",'allow-scripts')
+    // }
+    
+  const addToFavourite=async(data)=>{
+    console.log(authData)
+    const {watchAnime,Episode}=data;
+    const anime_name=`${watchAnime} episode:${Episode}`
+    const anime_link=`/anime/watch/${watchAnime}?episode-${Episode}`;
+    const img=recommendedAnimeData[0].img;
+    const anime_info={
+        _id:authData._id,
+        type:"favourite",
+        data_info:{ img,
+                  anime_name,
+                  anime_link}
     }
+    const res=await fetch("/api/auth2/UpdateDocument",{
+        method:"POST",
+        body:JSON.stringify(anime_info),
+        headers:{
+          "Accept":"application/json",
+          "Content-Type":"application/json"
+        }
+      })  
+  }
     return (
         <>
             <header>
@@ -51,20 +85,25 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                 </div>
                 <div className="animeWatchAndEpisodeContainer">
                     <div className="iframeContainer">
-                        <iframe id="iframe" ref={TargetIframe} rel="nofollow" src={animeIfameData[0]} sandboxscrolling="no" style={{ width: "95%", height: "100%" }} allowFullScreen="true" frameBorder="0" marginWidth="0" marginHeight="0" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        onLoad={()=>removeAdds()}></iframe>
+                        <iframe id="iframe" ref={TargetIframe} rel="nofollow" src={animeIfameData[0]} sandboxscrolling="no" style={{ width: "95%", height: "100%" }} allowFullScreen="true" frameBorder="0" marginWidth="0" marginHeight="0" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                     </div>
-                    {/* <div className="player_func">
+                    <div className="player_func" style={{backgroundColor:"gray"}}>
                         <div className="streaming_service">
-                            <p>Stream:<span className="streaming_namw"></span>Gogo</p>
+                                <p><span className="stream" style={{color:"#e74c3c"}}>Stream</span>:<span className="streaming_name" style={{color:"#3498db"}}>Gogo</span></p>
                         </div>
-                        <div className="previous_episode_button">
-                            <GiPreviousButton/>
+                        <div className="previous_episode_button" style={{fontSize:"25px",cursor:"pointer"}}>
+                            <AiFillBackward/>
                         </div>
-                        <div className="next_episode_button">
-                            <GiNextButton/>
+                        <div className="next_episode_button" style={{fontSize:"25px",cursor:"pointer"}}>
+                            <AiFillForward/>
                         </div>
-                        <div className="change_streaming_service">
+                        <div className="Add_to_favourite"style={{fontSize:"20px",cursor:"pointer"}} onClick={()=>addToFavourite({watchAnime,Episode})}>
+                            <AiFillHeart/>
+                        </div>
+                        <div className="Add_to_watchList"style={{fontSize:"24px",cursor:"pointer"}} onClick={()=>addtoWatchList()}>
+                            <MdOutlinePlaylistAdd/>
+                        </div>
+                        <div className="change_streaming_service" style={{marginTop:"12px",cursor:"pointer"}}>
                             <p>Server</p>
                             <select>
                                 <option value="0">VIDSTREAMING</option>
@@ -74,7 +113,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                                 <option value="0">DOODSTREAM</option>
                             </select>
                         </div>
-                    </div> */}
+                    </div>
                     <div className="episodeList">
                         <ul className="episode_list">
                             {Array.from(Array(totalAnimeEpisodeData[0].Episode), (e, i) => {

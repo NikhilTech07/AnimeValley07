@@ -482,11 +482,13 @@ aside {
   position: absolute;
 }
 
-/* .player_func{
+.player_func{
   color: #fff;
   font-size: 1.7rem;
-  display: none;
+  display: flex;
+  background-color:#414144;
   justify-content: space-around;
+  align-items:center
 }
 .change_streaming_service{
   display: flex;
@@ -495,7 +497,7 @@ select{
   position: relative;
   left: 4%;
   margin-bottom: 10%;
-} */
+}
 .episode_list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(71px, 70px)) !important;
