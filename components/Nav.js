@@ -28,7 +28,7 @@ const Nav = (props) => {
     }
     useEffect(() => {
         newUserData();
-    }, []);
+    }, [newUserData]);
     const showAccountAlert=(text)=>{
         swal({
             title:"User is Not login",

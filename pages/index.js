@@ -90,7 +90,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
   }
   useEffect(() => {
     getUserData();
-  }, [])
+  }, [getUserData])
   const addPage = async (name) => {
     page = page + 1;
     try {

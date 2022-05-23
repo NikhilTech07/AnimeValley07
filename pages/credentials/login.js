@@ -41,7 +41,7 @@ const Login= ({user,provider}) => {
   }
   useEffect(()=>{
     pushData();
-  },[])
+  },[pushData])
  
   const setLoginData=async()=>{
       if (credential.Gmail===""||credential.Password==null) {
