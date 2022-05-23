@@ -15,7 +15,6 @@ const gogoIframe=async(anime,ep)=>{
         gogoWeb.window.document.querySelectorAll(".anime_muti_link ul li a").forEach((val)=>{
             videoLink.push(val.getAttribute('data-video'))
         })
-        console.log(videoLink);
         return videoLink;
     } catch (error) {
         console.log("error")

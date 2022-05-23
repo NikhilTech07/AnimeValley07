@@ -46,14 +46,6 @@ export const getServerSideProps = async (context) => {
       method: "Post"
     });
     const animeMovieData = await animeMovieRes.json();
-    const authRes=await fetch(`http://${url}/api/auth2/Token_Authentication`,{
-      method:"GET",
-      headers:{
-        Accept:"application/json",
-        "Content-Type":"application/json"
-      }
-    })
-    const authNewData=await authRes.json();
     return {
       props: {
         carouselData,
@@ -62,7 +54,6 @@ export const getServerSideProps = async (context) => {
         popularAnimeAsideTodayData,
         ongoingAnimeData,
         animeMovieData,
-        authNewData,
         recentAnimeData,
         url
       }
@@ -72,7 +63,7 @@ export const getServerSideProps = async (context) => {
     console.log("error")
   }
 }
-const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMonthData, popularAnimeAsideWeekData,animeMovieData,ongoingAnimeData,authNewData,recentAnimeData,url}) => {
+const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMonthData, popularAnimeAsideWeekData,animeMovieData,ongoingAnimeData,recentAnimeData,url}) => {
   const animeContainer = useRef();
   const animeText = useRef();
   const animeCarousel = useRef();
@@ -81,13 +72,24 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
   const [popularAnimeType, SetPopularAnimeType] = useState("today");
   const [animeContainerContent, SetanimeContainerContent] = useState("recentAnime")
   const [animeDetails, SetanimeDetails] = useState({ recentAnime: {}, popularAnimeToday: {}, popularAnimeWeek: {}, popularAnimeMonth: {}, ongoingAnime: {}, animeMovie: {},authData:{} });
-  useEffect(() => {
+  const getUserData=async()=>{
+    const authRes=await fetch(`/api/auth2/Token_Authentication`,{
+      method:"GET",
+      headers:{
+        Accept:"application/json",
+        "Content-Type":"application/json"
+      }
+    })
+    const authNewData=await authRes.json();
     SetanimeDetails({
       recentAnime: recentAnimeData,
       ongoingAnime: ongoingAnimeData,
       animeMovie: animeMovieData,
       authData:authNewData
     })
+  }
+  useEffect(() => {
+    getUserData();
   }, [])
   const addPage = async (name) => {
     page = page + 1;
