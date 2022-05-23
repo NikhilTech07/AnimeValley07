@@ -71,8 +71,8 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
   const moreContainer = useRef();
   const [popularAnimeType, SetPopularAnimeType] = useState("today");
   const [animeContainerContent, SetanimeContainerContent] = useState("recentAnime")
+  const [animeDetails, SetanimeDetails] = useState({ recentAnime: {}, popularAnimeToday: {}, popularAnimeWeek: {}, popularAnimeMonth: {}, ongoingAnime: {}, animeMovie: {},authData:{} });
   useEffect(() => {
-    const [animeDetails, SetanimeDetails] = useState({ recentAnime: {}, popularAnimeToday: {}, popularAnimeWeek: {}, popularAnimeMonth: {}, ongoingAnime: {}, animeMovie: {},authData:{} });
     const getUserData=async()=>{
       const authRes=await fetch(`/api/auth2/Token_Authentication`,{
         method:"GET",
