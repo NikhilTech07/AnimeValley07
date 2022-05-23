@@ -90,7 +90,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
       })
     }
     getUserData();
-  }, [getUserData])
+  }, [animeMovieData,ongoingAnimeData,recentAnimeData])
   const addPage = async (name) => {
     page = page + 1;
     try {

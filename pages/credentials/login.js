@@ -22,26 +22,26 @@ export async function getServerSideProps(context) {
 
 const Login= ({user,provider}) => {
   const router=useRouter();
-  async function pushData(){
-    document.title="Anime Valley"
-    if (user) {
-      const res=await fetch('/api/auth1/google_login',{
-        method:'POST',
-        body:JSON.stringify(user),
-        headers:{
-          "Accept":"application/json",
-          "Content-Type":"application/json"
+  useEffect(()=>{
+    async function pushData(){
+      document.title="Anime Valley"
+      if (user) {
+        const res=await fetch('/api/auth1/google_login',{
+          method:'POST',
+          body:JSON.stringify(user),
+          headers:{
+            "Accept":"application/json",
+            "Content-Type":"application/json"
+          }
+        })
+        const data=await res.json();
+        if (data.message=="User Already Exist") {
+          router.push("/")
         }
-      })
-      const data=await res.json();
-      if (data.message=="User Already Exist") {
-        router.push("/")
       }
     }
-  }
-  useEffect(()=>{
     pushData();
-  },[pushData])
+  },[])
  
   const setLoginData=async()=>{
       if (credential.Gmail===""||credential.Password==null) {

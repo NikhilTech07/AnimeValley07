@@ -9,26 +9,26 @@ import swal from "sweetalert";
 import Head from "next/head";
 import Image from "next/image";
 const Nav = (props) => {
-    const newUserData = async () => {
-        const authRes = await fetch("/api/auth2/Token_Authentication", {
-            method: "GET",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            }
-        })
-        const authData = await authRes.json();
-        setUserData(authData)
-        if (authData.message!=="invalid") {
-            setLoggin(true)
-        }
-        else if(props.img){
-            setLoggin("auth")
-        }
-    }
     useEffect(() => {
+        const newUserData = async () => {
+            const authRes = await fetch("/api/auth2/Token_Authentication", {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                }
+            })
+            const authData = await authRes.json();
+            setUserData(authData)
+            if (authData.message!=="invalid") {
+                setLoggin(true)
+            }
+            else if(props.img){
+                setLoggin("auth")
+            }
+        }
         newUserData();
-    }, [newUserData]);
+    }, []);
     const showAccountAlert=(text)=>{
         swal({
             title:"User is Not login",
