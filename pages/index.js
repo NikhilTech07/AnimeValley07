@@ -71,24 +71,24 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
   const moreContainer = useRef();
   const [popularAnimeType, SetPopularAnimeType] = useState("today");
   const [animeContainerContent, SetanimeContainerContent] = useState("recentAnime")
-  const [animeDetails, SetanimeDetails] = useState({ recentAnime: {}, popularAnimeToday: {}, popularAnimeWeek: {}, popularAnimeMonth: {}, ongoingAnime: {}, animeMovie: {},authData:{} });
-  const getUserData=async()=>{
-    const authRes=await fetch(`/api/auth2/Token_Authentication`,{
-      method:"GET",
-      headers:{
-        Accept:"application/json",
-        "Content-Type":"application/json"
-      }
-    })
-    const authNewData=await authRes.json();
-    SetanimeDetails({
-      recentAnime: recentAnimeData,
-      ongoingAnime: ongoingAnimeData,
-      animeMovie: animeMovieData,
-      authData:authNewData
-    })
-  }
   useEffect(() => {
+    const [animeDetails, SetanimeDetails] = useState({ recentAnime: {}, popularAnimeToday: {}, popularAnimeWeek: {}, popularAnimeMonth: {}, ongoingAnime: {}, animeMovie: {},authData:{} });
+    const getUserData=async()=>{
+      const authRes=await fetch(`/api/auth2/Token_Authentication`,{
+        method:"GET",
+        headers:{
+          Accept:"application/json",
+          "Content-Type":"application/json"
+        }
+      })
+      const authNewData=await authRes.json();
+      SetanimeDetails({
+        recentAnime: recentAnimeData,
+        ongoingAnime: ongoingAnimeData,
+        animeMovie: animeMovieData,
+        authData:authNewData
+      })
+    }
     getUserData();
   }, [getUserData])
   const addPage = async (name) => {
