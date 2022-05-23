@@ -28,7 +28,7 @@ const Nav = (props) => {
             }
         }
         newUserData();
-    }, []);
+    }, [props.img]);
     const showAccountAlert=(text)=>{
         swal({
             title:"User is Not login",

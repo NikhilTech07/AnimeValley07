@@ -41,7 +41,7 @@ const Login= ({user,provider}) => {
       }
     }
     pushData();
-  },[])
+  },[router,user])
  
   const setLoginData=async()=>{
       if (credential.Gmail===""||credential.Password==null) {
