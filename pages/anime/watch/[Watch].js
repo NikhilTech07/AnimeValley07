@@ -7,11 +7,12 @@ import {MdOutlinePlaylistAdd} from "react-icons/md";
 import swal from "sweetalert";
 import { useRef,useEffect,useState } from "react";
 export const getServerSideProps = async ( context ) => {
-    const url=context.req.headers.host
+    const streamingChannel=context.query.channel;
+    const url=context.req.headers.host;
     try {
         const watchAnime = context.query.Watch.toLowerCase().replaceAll(" ", "-").replaceAll("(", "").replaceAll(")", "").replaceAll(".", "").replaceAll(":-", "-");
         const Episode = context.query.episode;
-        const animeIfameRes = await fetch(`http://${url}/api/iframe/${watchAnime}?episode=${Episode}`, {
+        const animeIfameRes = await fetch(`http://${url}/api/iframe/${watchAnime}?episode=${Episode}&&iframe=${streamingChannel}`, {
             method: "post"
         })
         const totalAnimeEpisodeRes = await fetch(`http://${url}/api/info/episode/${watchAnime}`, {
@@ -38,6 +39,9 @@ export const getServerSideProps = async ( context ) => {
 }
 
 const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, watchAnime,Episode }) => {
+    const videoLink=animeIfameData.videoLink;
+    const videoName=animeIfameData.videoName;
+    const [animeIframeIndex,setAnimeIframeIndex]=useState(0);
     const [userData,setUserData]=useState();
     const getUserData=async()=>{
         const authRes=await fetch(`/api/auth2/Token_Authentication`,{
@@ -82,8 +86,8 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
       })  
   }
   const addtoWatchList=async(data)=>{
-    const {watchAnime,Episode}=data;
-    const data_name=`${watchAnime} episode:${Episode}`
+      const {watchAnime,Episode}=data;
+      const data_name=`${watchAnime} episode:${Episode}`
     const anime_link=`/anime/watch/${watchAnime}?episode-${Episode}`;
     const data_img=recommendedAnimeData[0].img;
     const anime_info={
@@ -92,26 +96,26 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
         data_info:{ data_img,
                   data_name,
                   anime_link}
-    }
-    const res=await fetch("/api/auth2/UpdateDocument",{
-        method:"POST",
-        body:JSON.stringify(anime_info),
-        headers:{
-            "Accept":"application/json",
-            "Content-Type":"application/json"
-        }
-    })
-  }
-  const playPreviousEpisode=(ep)=>{
-    const currentEpisode=parseInt(ep);
-    if (currentEpisode!=1) {
-        router.push(`/anime/watch/${watchAnime}?episode=${currentEpisode-1}`);
-    }
-    else{
-        swal({
-            title:"Your are on the First episode",
-            buttons:"ok"
-        }) 
+                }
+                const res=await fetch("/api/auth2/UpdateDocument",{
+                    method:"POST",
+                    body:JSON.stringify(anime_info),
+                    headers:{
+                        "Accept":"application/json",
+                        "Content-Type":"application/json"
+                    }
+                })
+            }
+            const playPreviousEpisode=(ep)=>{
+                const currentEpisode=parseInt(ep);
+                if (currentEpisode!=1) {
+                    router.push(`/anime/watch/${watchAnime}?episode=${currentEpisode-1}`);
+                }
+                else{
+                    swal({
+                        title:"Your are on the First episode",
+                        buttons:"ok"
+                    }) 
     }
   }
   const playNextEpisode=(ep)=>{
@@ -119,17 +123,18 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
       const totalEpisode=totalAnimeEpisodeData[0].Episode;
       if (currentEpisode<totalEpisode) {
           router.push(`/anime/watch/${watchAnime}?episode=${currentEpisode+1}`);
-      }
-      else{
-        swal({
-            title:"Your are on the last episode",
-            buttons:"ok"
-        })
-      }
-  }
+        }
+        else{
+            swal({
+                title:"Your are on the last episode",
+                buttons:"ok"
+            })
+        }
+    }
     return (
         <>
             <header>
+                {console.log(videoLink)}
                 <Nav />
             </header>
           <div className="megaContainer megaWatchContainer">
@@ -139,7 +144,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                 </div>
                 <div className="animeWatchAndEpisodeContainer">
                     <div className="iframeContainer">
-                        <iframe id="iframe" ref={TargetIframe} rel="nofollow" src={animeIfameData[0]} sandboxscrolling="no" style={{ width: "95%", height: "100%" }} allowFullScreen="true" frameBorder="0" marginWidth="0" marginHeight="0" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                        <iframe id="iframe" ref={TargetIframe} rel="nofollow" src={videoLink[animeIframeIndex]} sandboxscrolling="no" style={{ width: "95%", height: "100%" }} allowFullScreen={true} frameBorder="0" marginWidth="0" marginHeight="0" scrolling="no" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                     </div>
                     <div className="player_func" style={{backgroundColor:"gray"}}>
                         <div className="streaming_service">
@@ -159,12 +164,14 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                         </div>
                         <div className="change_streaming_service" style={{marginTop:"12px",cursor:"pointer"}}>
                             <p>Server</p>
-                            <select>
-                                <option value="0">VIDSTREAMING</option>
-                                <option value="0">GOGO SERVER</option>
-                                <option value="0">STREAMSB</option>
-                                <option value="0">XSTREAMCDN</option>
-                                <option value="0">DOODSTREAM</option>
+                            <select onChange={(e)=>setAnimeIframeIndex(parseInt(e.target.value))}>
+                                {videoName.map((val,index)=>{
+                                    return(
+                                        <>
+                                            <option value={index}>{val}</option>
+                                        </>
+                                    )
+                                })}
                             </select>
                         </div>
                     </div>

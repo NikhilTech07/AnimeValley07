@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 import Nav from "../../components/Nav";
 import { BsPlayCircleFill } from "react-icons/bs";
 import Link from "next/link";
@@ -22,6 +23,7 @@ export const getServerSideProps = async (context) => {
   }
 }
 const Anime = ({ userData, similarAnimeData }) => {
+  const [streamingChannel,setStreamingChannel]=useState('gogo');
   return (
     <>
       <header>
@@ -35,8 +37,16 @@ const Anime = ({ userData, similarAnimeData }) => {
           </div>
           <div className="userAnimeDetails">
             <p className="userAnimeName">{userData[0].name}</p>
+            <div className="streaming_option">
+                  <label for="streaming_option_list" style={{fontSize:"1.5rem",color:"#fff"}}>Streaming :</label>
+                    <select className="streaming_option_list" onChange={(e)=>setStreamingChannel(e.target.value)}>
+                      <option value="gogo">Gogo</option>
+                      <option value="ani">Ani</option>
+                      <option value="rush">Rush</option>
+                    </select>
+                  </div>
             <div className="playButtonContainer">
-              <Link href={`/anime/watch/${userData[0].name.toLowerCase()}?episode=1`}>
+              <Link href={`/anime/watch/${userData[0].name.toLowerCase()}?episode=1&channel=${streamingChannel}`}>
                 <a>
                 <button className="playButton">Play <BsPlayCircleFill /> </button>
                 </a>

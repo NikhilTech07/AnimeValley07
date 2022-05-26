@@ -2,36 +2,57 @@ import got from "got";
 import jsdom from "jsdom"
 const { JSDOM } = jsdom;
 const IframeReceiver = async(req,res) => {
-const anime=req.query.Iframe
-const episode=req.query.episode
-  res.status(200).json(await gogoIframe(anime,episode));
-  res.end();
+const anime=req.query.Iframe;
+const streamingChannel=req.query.iframe;
+const episode=req.query.episode;
+switch (streamingChannel) {
+    case "gogo":
+        res.status(200).json(await gogoIframe(anime,episode));
+        res.end();
+        break;
+    case "rush":
+        res.status(200).json(await rushIframe(anime,episode))
+    default:
+        break;
+}
 }
 const gogoIframe=async(anime,ep)=>{
-    const videoLink=[]
+    const videoLink=[];
+    const videoName=[];
     try {
         const gogo=await got(`https://gogoanime.sk/${anime}-episode-${ep}`);
         const gogoWeb=new JSDOM(gogo.body);
         gogoWeb.window.document.querySelectorAll(".anime_muti_link ul li a").forEach((val)=>{
             videoLink.push(val.getAttribute('data-video'))
         })
-        return videoLink;
+        gogoWeb.window.document.querySelectorAll(".anime_muti_link ul li").forEach((val)=>{
+            videoName.push(val.textContent.replaceAll("Choose this server",""));
+        })
+        const gogoObject={videoLink,videoName}
+        return gogoObject;
     } catch (error) {
         console.log("error")
     }
 }
 const rushIframe=async(anime,eps)=>{
-    const videoLink=[];
+    let rushObject={
+        videoLink:[],
+        videoName:[]
+    }
     try {
         const rush=await got(`https://www.animerush.tv/${anime}-episode-${eps}/`);
         const rushRes=new JSDOM(rush.body);
-        const videoSrc=rushRes.window.document.querySelectorAll("iframe").forEach((val)=>{
-            if (val.title=='MP4Upload') {
-                videoLink.push(val.src)
-            }
-         });
-         console.log(videoLink)
-        return videoLink;
+        rushRes.window.document.querySelectorAll("h3").forEach((val)=>{
+            rushObject.videoName.push(val.textContent)
+        })
+        rushRes.window.document.querySelectorAll("h3 a").forEach(async(val)=>{
+            const innerRush=await got(`https:${val.href}`);
+            const innerRushRes=new JSDOM(innerRush.body);
+            const videoData=innerRushRes.window.document.querySelector(".videoembed iframe").src;
+            rushObject.videoLink.push(videoData);
+            console.log(rushObject)
+        });
+        return rushObject;
     } catch (error) {
         console.log(error)
     }
