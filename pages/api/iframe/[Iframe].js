@@ -35,6 +35,7 @@ const gogoIframe=async(anime,ep)=>{
     }
 }
 const rushIframe=async(anime,eps)=>{
+    let videoData=[];
     let rushObject={
         videoLink:[],
         videoName:[]
@@ -45,13 +46,16 @@ const rushIframe=async(anime,eps)=>{
         rushRes.window.document.querySelectorAll("h3").forEach((val)=>{
             rushObject.videoName.push(val.textContent)
         })
-        rushRes.window.document.querySelectorAll("h3 a").forEach(async(val)=>{
-            const innerRush=await got(`https:${val.href}`);
-            const innerRushRes=new JSDOM(innerRush.body);
-            const videoData=innerRushRes.window.document.querySelector(".videoembed iframe").src;
-            rushObject.videoLink.push(videoData);
-            console.log(rushObject)
+        rushRes.window.document.querySelectorAll("h3 a").forEach((val)=>{
+            videoData.push(val.href);
         });
+        // console.log(videoData);
+        await Promise.all(videoData.map(async(val)=>{
+            const insideRushres=await got(`https:${val}`);
+            const insideRush=new JSDOM(insideRushres.body);
+            rushObject.videoLink.push(insideRush.window.document.querySelector(".videoembed iframe").src);
+        }))
+        console.log(rushObject)
         return rushObject;
     } catch (error) {
         console.log(error)

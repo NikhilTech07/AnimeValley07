@@ -134,7 +134,6 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
     return (
         <>
             <header>
-                {console.log(videoLink)}
                 <Nav />
             </header>
           <div className="megaContainer megaWatchContainer">

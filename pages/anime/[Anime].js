@@ -38,7 +38,7 @@ const Anime = ({ userData, similarAnimeData }) => {
           <div className="userAnimeDetails">
             <p className="userAnimeName">{userData[0].name}</p>
             <div className="streaming_option">
-                  <label for="streaming_option_list" style={{fontSize:"1.5rem",color:"#fff"}}>Streaming :</label>
+                  <span style={{fontSize:"1.5rem",color:"#fff"}}>Streaming :</span>
                     <select className="streaming_option_list" onChange={(e)=>setStreamingChannel(e.target.value)}>
                       <option value="gogo">Gogo</option>
                       <option value="ani">Ani</option>
