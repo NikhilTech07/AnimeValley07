@@ -4,7 +4,7 @@ import Image from "next/image";
 const PopularAnimeAside = (props) => {
   return (
     <>
-        <Link href={`/anime/watch/${props.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
+        <Link href={`/anime/${props.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
           <a>
           <div className="popular_anime_card">
                       <div className="popular_anime_img">

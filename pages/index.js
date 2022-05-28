@@ -100,7 +100,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
       data.map((val, index) => {
         container.innerHTML += ` 
         <div class="anime_card_details" key={val.name} style="position:relative">
-         <a href=/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}>
+         <a href="/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}&channel=gogo">
             <div class="anime_card">
               <div class="anime_image">
               <Image src=${val.img} width="100px" height="100px" alt=${val.name}></Image>
@@ -119,7 +119,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
             <div class="anime_menu" ref={animeMenu} onmouseleave="document.getElementsByClassName('anime_menu')[${index + newIndex}].style.display='none'">
                       <ul class="anime_menu_items_widgets">
                         <li class="anime_menu_widgets">
-                            <a href=/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}>
+                            <a href="/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}&channel=gogo">
                             Play
                             </a>
                         </li>
@@ -218,7 +218,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
             </ul>
           </div>
         </div>
-        <div className='anime_carousel' ref={animeCarousel}>
+        <div className='anime_carousel' ref={animeCarousel} style={{display:"none"}}>
           <Swiper
             effect={"coverflow"}
             grabCursor={true}
@@ -245,7 +245,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
               return (
                 <>
                   <SwiperSlide key={val.name}>
-                    <Link  href={`/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
+                    <Link  href={`/anime/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
                       <a>
                         <div className="carousel_card">
                           <div className="carousel_image">
@@ -279,7 +279,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
               return (
                 <>
                   <div className="anime_card_details" key={val.name} style={{ position: "relative" }}>
-                    <Link href={`/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
+                    <Link href={`/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}&channel=gogo`}>
                       <a>
                         <div className="anime_card">
                           <div className="anime_image">
@@ -298,7 +298,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
                     <div className="anime_menu" ref={animeMenu} onMouseLeave={() => hideAnimeMenu(Index)}>
                       <ul className="anime_menu_items_widgets">
                         <li className="anime_menu_widgets">
-                          <Link href={`/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}`}>
+                          <Link href={`/anime/watch/${val.name.replaceAll(" ", '-').replaceAll("-Episode-", '?episode=').toLowerCase()}&channel=gogo`}>
                             <a>Play</a>
                           </Link>
                         </li>
