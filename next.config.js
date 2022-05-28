@@ -14,5 +14,4 @@ const nextConfig = {
     GOOGLE_SECRET:"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"
   }
 }
-
-export default nextConfig
+module.exports = nextConfig
