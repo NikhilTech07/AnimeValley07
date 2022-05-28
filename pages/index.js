@@ -10,7 +10,6 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import { Autoplay, EffectCoverflow } from "swiper";
-import { getSession,getProviders } from "next-auth/react";
 import { FaPlay } from "react-icons/fa";
 import { useState, useRef, useEffect } from "react";
 let page = 1;

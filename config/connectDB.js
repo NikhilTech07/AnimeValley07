@@ -1,6 +1,6 @@
 const mongoose=require('mongoose')
 const connectDB = () => {
-    mongoose.connect("mongodb+srv://Nikhil:Nikhil1234500000@cluster0.6ay1m.mongodb.net/UserAccount?retryWrites=true&w=majority")
+    mongoose.connect(process.env.DB_URL)
     .then(()=>{
         console.log("connection...")
     }).catch((err)=>{
