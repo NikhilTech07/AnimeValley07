@@ -17,10 +17,10 @@ let newIndex = 0;
 export const getServerSideProps = async (context) => {
   const url = context.req.headers.host;
   try {
-    const carouselRes = await fetch(`http://${url}/api/carouselAnime`, {
-      method: "Post"
-    })
-    const carouselData = await carouselRes.json();
+    // const carouselRes = await fetch(`http://${url}/api/carouselAnime`, {
+    //   method: "Post"
+    // })
+    // const carouselData = await carouselRes.json();
     const recentAnimeRes = await fetch(`http://${url}/api/displayAnime`, {
       method: "Post"
     });
@@ -47,7 +47,7 @@ export const getServerSideProps = async (context) => {
     const animeMovieData = await animeMovieRes.json();
     return {
       props: {
-        carouselData,
+        // carouselData,
         popularAnimeAsideMonthData,
         popularAnimeAsideWeekData,
         popularAnimeAsideTodayData,
@@ -62,7 +62,7 @@ export const getServerSideProps = async (context) => {
     console.log("error")
   }
 }
-const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMonthData, popularAnimeAsideWeekData,animeMovieData,ongoingAnimeData,recentAnimeData,url}) => {
+const Index = ({  popularAnimeAsideTodayData, popularAnimeAsideMonthData, popularAnimeAsideWeekData,animeMovieData,ongoingAnimeData,recentAnimeData,url}) => {
   const animeContainer = useRef();
   const animeText = useRef();
   const animeCarousel = useRef();
@@ -217,7 +217,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
           </div>
         </div>
         <div className='anime_carousel' ref={animeCarousel} style={{display:"none"}}>
-          <Swiper
+          {/* <Swiper
             effect={"coverflow"}
             grabCursor={true}
             spaceBetween={95}
@@ -260,7 +260,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
                 </>
               )
             }) : <p style={{ color: "#fff", textAlign: "center" }}>Loading.....</p>}
-          </Swiper>
+          </Swiper> */}
         </div>
         <div className="input_group">
           <SearchBar/>
