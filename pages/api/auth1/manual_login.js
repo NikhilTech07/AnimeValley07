@@ -6,7 +6,7 @@ connectDB();
 
 const manual_login=async(req,res)=>{
     const {email,Password}=req.body;
-    let oldUser=await ManualUser.findOne({email});
+    let oldUser=await ManualUser.findOne({email}).exec();
     if (oldUser) {
         if (oldUser.Password) {
             const isMatched=bcyrpt.compare(Password,oldUser.Password);

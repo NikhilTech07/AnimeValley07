@@ -4,7 +4,7 @@ import cookie from "cookie";
 connectDB();
 const google=async(req,res)=>{
     const {name,email,image}=req.body;
-    let oldUser=await ManualUser.findOne({email});
+    let oldUser=await ManualUser.findOne({email}).exec();
     if (oldUser) {
         if (oldUser.Password) {
             res.status(200).json({"message":"Please use manual method to login"});

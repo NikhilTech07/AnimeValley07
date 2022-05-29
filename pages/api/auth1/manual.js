@@ -4,7 +4,7 @@ import connectDB from "../../../config/connectDB.js";
 connectDB();
 const manual=async(req,res)=>{
     let {name,email,img,Password}=req.body;
-    let oldUser=await ManualUser.findOne({email});
+    let oldUser=await ManualUser.findOne({email}).exec();
     if (oldUser) {
         let passwordExist=oldUser.Password;
         if (passwordExist) {
