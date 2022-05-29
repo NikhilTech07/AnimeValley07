@@ -12,4 +12,8 @@ export default NextAuth({
     pages:{
       signIn:'/credentials/SignUp'
     },
+    session: {
+      maxAge: 15,
+    },
+    NEXTAUTH_URL:"http://animevalley07.herokuapp.com/",
 })

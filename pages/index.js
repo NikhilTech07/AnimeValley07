@@ -150,7 +150,7 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
       text.innerText = name
     }
     else {
-      carousel.style.display = "block";
+      text.innerText = name
     }
     SetanimeContainerContent(name);
   }
@@ -193,7 +193,6 @@ const Index = ({ carouselData, popularAnimeAsideTodayData, popularAnimeAsideMont
   }
   return (
     <>
-    {console.log(url)}
       <header>
         <Nav/>
         <div className="secondNavbar">

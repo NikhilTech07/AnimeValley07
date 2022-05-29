@@ -4,7 +4,7 @@ import {AiOutlineGoogle} from "react-icons/ai";
 import { getSession,getProviders,signIn } from "next-auth/react";
 import { useRouter } from 'next/router'
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import swal from 'sweetalert';
 export async function getServerSideProps(context) {
   const session = await getSession(context)
@@ -22,11 +22,25 @@ export async function getServerSideProps(context) {
 
 const Login= ({user,provider}) => {
   const router=useRouter();
+  const [credential,setCredential]=useState({
+    email:"",
+    Password:""
+    
+  })
+  const settingCred=(event)=>{
+    const {name,value}=event.target;
+    setCredential((preValue)=>{
+      return{
+        ...preValue,
+        [name]:value
+      }
+    })
+  }
   useEffect(()=>{
     async function pushData(){
       document.title="Anime Valley"
       if (user) {
-        const res=await fetch('/api/auth1/google_login',{
+        const res=await fetch('/api/auth1/google',{
           method:'POST',
           body:JSON.stringify(user),
           headers:{
@@ -37,6 +51,13 @@ const Login= ({user,provider}) => {
         const data=await res.json();
         if (data.message=="User Already Exist") {
           router.push("/")
+        }
+        else if(data.message=="Please use manual method to login"){
+          swal({
+            title:"AnimeValley",
+            text:`${data.message}`,
+            buttons:"Okk"
+          })
         }
       }
     }
@@ -76,6 +97,15 @@ const Login= ({user,provider}) => {
           swal({
             title:`Please Sign in to Anime Valley`,
             text:"Navigate To Sign Up Page",
+            buttons:"Click Here"
+          }).then(()=>{
+            router.push("/api/auth/signin")
+          })
+        }
+        else if(data.message=="please google for login"){
+          swal({
+            title:`Anime valley`,
+            text:"please google for login",
             buttons:"Click Here"
           }).then(()=>{
             router.push("/api/auth/signin")
@@ -140,7 +170,7 @@ const Login= ({user,provider}) => {
               <div className="loginWithGmailOption">
                 <form autoComplete="off">
                   <div className="gmailCred">
-                    <input type="email" id="userGmail" className="userGmail userCredentials extendInputArea " name="Gmail" placeholder="Gmalil" onChange={(event)=>{settingCred(event)}} />
+                    <input type="email" id="userGmail" className="userGmail userCredentials extendInputArea " name="email" placeholder="Gmalil" onChange={(event)=>{settingCred(event)}} />
                   </div>
                   <div className="passwordCred">
                     <input type="password" id="userPassword" className="userPassword userCredentials extendInputArea" name="Password" placeholder="Password" onChange={(event)=>{settingCred(event)}}/>

@@ -24,10 +24,9 @@ const SignUp = ({provider,user}) => {
   const [isLoggin,setIsLoggin]=useState(false);
   const router = useRouter();
   const [credential,setCredential]=useState({
-    firstName:"",
-    secondName:"",
+    name:"",
     img:"",
-    Gmail:"",
+    email:"",
     Password:null,
     ConfirmPassword:null
     
@@ -55,6 +54,18 @@ const SignUp = ({provider,user}) => {
           "Content-Type":"application/json"
         }
       })
+      const data=await res.json();
+      console.log(data)
+      if (data.message=="Please use manual method to login"){
+        swal({
+          title:`Anime Valley`,
+          text:`${data.message}`,
+          buttons:"Click Here"
+        })
+      }
+      else{
+        setIsLoggin(true);
+      }
     }
   }
   async function getUserData(){
@@ -162,17 +173,16 @@ const SignUp = ({provider,user}) => {
               <div className="loginWithGmailOption">
                 <form autoComplete="off">
                   <div className="nameCred">
-                  <input type="name" id="userFirstName" className="userName userCredentials" name="firstName" placeholder="First name" onChange={(event)=>{settingCred(event)}}/>
-                  <input type="name" id="userSecondName" className="userName userCredentials" name="secondName"  placeholder="second name" onChange={(event)=>settingCred(event)}/>
+                  <input type="name" id="userFirstName" className="userName userCredentials extendInputArea" name="name" placeholder="First name" onChange={(event)=>{settingCred(event)}}/>
                   </div>
                   <div className="gmailCred">
-                    <input type="email" id="userGmail" className="userGmail userCredentials extendInputArea " name="Gmail" placeholder="Gmalil" onChange={(event)=>{settingCred(event)}} />
+                    <input type="email" id="userGmail" className="userGmail userCredentials extendInputArea " name="email" placeholder="Gmalil" onChange={(event)=>{settingCred(event)}} />
                   </div>
                   <div className="passwordCred">
                     <input type="password" id="userPassword" className="userPassword userCredentials extendInputArea" name="Password" placeholder="Password" onChange={(event)=>{settingCred(event)}}/>
                   </div>
                   <div className="confirmPasswordCred">
-                  <input type="password" id="userConfirmPassword" className="userConfirmPassword userCredentials extendInputArea" name="ConfirmPassword" placeholder="Confirm Password" onChange={(event)=>{settingCred(event)}}/>
+                  <input type="password" id="userConfirmPassword" className="userConfirmPassword userCredentials extendInputArea"  name="ConfirmPassword" placeholder="Confirm Password" onChange={(event)=>{settingCred(event)}}/>
                   </div>
                 </form>
                 <div className="icon_section">

@@ -1,4 +1,3 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   images:{
@@ -11,7 +10,7 @@ const nextConfig = {
     NEXTAUTH_URL:"http://animevalley07.herokuapp.com/",
     NEXT_PUBLIC_SECRET:"ece4ecec4901bc8e09af65f5c178e82b",
     GOOGLE_ID:"765641074683-j2derr75ji44vtogj6nprj56v9g7p71s.apps.googleusercontent.com",
-    GOOGLE_SECRET:"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"
+    GOOGLE_SECRET:"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",
   }
 }
 module.exports = nextConfig
