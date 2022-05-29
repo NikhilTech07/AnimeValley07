@@ -9,7 +9,7 @@ const google=async(req,res)=>{
         if (oldUser.Password) {
             res.status(200).json({"message":"Please use manual method to login"});
         } else {
-            // const token=await oldUser.generateAnimeAuthToken();
+            const token=await oldUser.generateAnimeAuthToken();
             const _date=new Date();
             res.setHeader("Set-Cookie",cookie.serialize('AnimeValley_token',token,{
                 httpOnly:true,

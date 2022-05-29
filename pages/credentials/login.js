@@ -49,10 +49,10 @@ const Login= ({user,provider}) => {
           }
         })
         const data=await res.json();
-        if (data.message=="User Already Exist") {
-          router.push("/")
-        }
-        else if(data.message=="Please use manual method to login"){
+        // if (data.message=="User Already Exist") {
+        //   router.push("/")
+        // }
+        if(data.message=="Please use manual method to login"){
           swal({
             title:"AnimeValley",
             text:`${data.message}`,
