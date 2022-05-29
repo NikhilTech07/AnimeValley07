@@ -12,6 +12,7 @@ const google=async(req,res)=>{
             const token=await oldUser.generateAnimeAuthToken();
             const _date=new Date();
             res.setHeader("Set-Cookie",cookie.serialize('AnimeValley_token',token,{
+                httpOnly:true,
                 expires:new Date(_date.getFullYear()+3,_date.getMonth(),_date.getDate()),
                 sameSite:"strict",
                 path:"/"
