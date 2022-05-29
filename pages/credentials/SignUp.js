@@ -55,7 +55,6 @@ const SignUp = ({provider,user}) => {
         }
       })
       const data=await res.json();
-      console.log(data)
       if (data.message=="Please use manual method to login"){
         swal({
           title:`Anime Valley`,

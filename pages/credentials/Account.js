@@ -95,7 +95,7 @@ const Account = () => {
       {isLoggin==false && 
       <div className="notAccount" style={{color:"#fff",fontSize:"3rem",width:"100%",height:"50vh",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
         <p>User is not log in with AnimeValley.</p>
-        <p style={{marginTop:"20px"}}>Please <Link href="/credentials/Login"><a style={{color:"blue"}}><u>Log in</u></a></Link></p>
+        <p style={{marginTop:"20px"}}>Please <Link href="/credentials/login"><a style={{color:"blue"}}><u>Log in</u></a></Link></p>
         </div>}
     </>
   )
