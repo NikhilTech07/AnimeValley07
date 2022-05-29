@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-console.log(process.env.NEXTAUTH_URL);
 export default NextAuth({
     secret:process.env.NEXT_PUBLIC_SECRET,
     providers:[
