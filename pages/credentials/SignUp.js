@@ -151,7 +151,7 @@ const SignUp = ({provider,user}) => {
               <p className="loginOption">Already have an account ?
               <Link href="/credentials/login">
                 <a style={{marginLeft:"3px",color:"skyblue"}}>
-              login
+              Login
                 </a>
               </Link>
               </p>
