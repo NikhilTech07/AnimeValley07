@@ -12,8 +12,8 @@ export default NextAuth({
     pages:{
       signIn:'/credentials/SignUp'
     },
-    NEXTAUTH_URL:process.env.NEXTAUTH_URL,
     session: {
       maxAge: 15,
     },
+    NEXTAUTH_URL:process.env.NEXTAUTH_URL,
 })
