@@ -19,7 +19,7 @@ UserSchema.methods.generateAnimeAuthToken= async function(){
     try {
         const token=jwt.sign({_id:this._id.toString()},process.env.JWT_SECRET);
         this.tokens=this.tokens.concat({token});
-        await this.updateOne(this._id);
+        await this.save();
         return token;
     } catch (error) {
         console.log(error)
