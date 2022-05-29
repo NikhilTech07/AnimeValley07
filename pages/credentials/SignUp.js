@@ -149,7 +149,7 @@ const SignUp = ({provider,user}) => {
             <div className="accountDetails" style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
               <p className="create">Create Account</p>
               <p className="loginOption">Already have an account ?
-              <Link href="/credentials/Login">
+              <Link href="/credentials/login">
                 <a style={{marginLeft:"3px",color:"skyblue"}}>
               login
                 </a>
