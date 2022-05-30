@@ -67,7 +67,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
   const addToFavourite=async(data)=>{
     const {watchAnime,Episode}=data;
     const data_name=`${watchAnime} episode:${Episode}`
-    const anime_link=`/anime/watch/${watchAnime}?episode-${Episode}`;
+    const anime_link=`/anime/watch/${watchAnime}?episode-${Episode}&iframe=gogo`;
     const data_img=recommendedAnimeData[0].img;
     const anime_info={
         _id:userData._id,
@@ -88,7 +88,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
   const addtoWatchList=async(data)=>{
       const {watchAnime,Episode}=data;
       const data_name=`${watchAnime} episode:${Episode}`
-    const anime_link=`/anime/watch/${watchAnime}?episode-${Episode}`;
+    const anime_link=`/anime/watch/${watchAnime}?episode-${Episode}&iframe=gogo`;
     const data_img=recommendedAnimeData[0].img;
     const anime_info={
         _id:userData._id,
@@ -109,7 +109,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
             const playPreviousEpisode=(ep)=>{
                 const currentEpisode=parseInt(ep);
                 if (currentEpisode!=1) {
-                    router.push(`/anime/watch/${watchAnime}?episode=${currentEpisode-1}`);
+                    router.push(`/anime/watch/${watchAnime}?episode=${currentEpisode-1}&iframe=gogo`);
                 }
                 else{
                     swal({
@@ -122,7 +122,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
       const currentEpisode=parseInt(ep);
       const totalEpisode=totalAnimeEpisodeData[0].Episode;
       if (currentEpisode<totalEpisode) {
-          router.push(`/anime/watch/${watchAnime}?episode=${currentEpisode+1}`);
+          router.push(`/anime/watch/${watchAnime}?episode=${currentEpisode+1}&iframe=gogo`);
         }
         else{
             swal({
@@ -179,7 +179,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                             {Array.from(Array(totalAnimeEpisodeData[0].Episode), (e, i) => {
                                 return <>
                                     <li key={i + 1}>
-                                        <Link href={`/anime/watch/${watchAnime}?episode=${i + 1}`} passHref>
+                                        <Link href={`/anime/watch/${watchAnime}?episode=${i + 1}&iframe="gogo"`} passHref>
                                             <a className="episode_number">
                                                 <p>{i + 1}</p>
                                             </a>
