@@ -12,7 +12,7 @@ export const getServerSideProps = async ( context ) => {
     try {
         const watchAnime = context.query.Watch.toLowerCase().replaceAll(" ", "-").replaceAll("(", "").replaceAll(")", "").replaceAll(".", "").replaceAll(":-", "-");
         const Episode = context.query.episode;
-        const animeIfameRes = await fetch(`http://${url}/api/iframe/${watchAnime}?episode=${Episode}&&channel=${streamingChannel}`, {
+        const animeIfameRes = await fetch(`http://${url}/api/iframe/${watchAnime}?episode=${Episode}&&iframe=${streamingChannel}`, {
             method: "post"
         })
         const totalAnimeEpisodeRes = await fetch(`http://${url}/api/info/episode/${watchAnime}`, {
@@ -68,7 +68,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
   const addToFavourite=async(data)=>{
     const {watchAnime,Episode}=data;
     const data_name=`${watchAnime} episode:${Episode}`
-    const anime_link=`/anime/watch/${watchAnime}?episode-${Episode}&channel=gogo`;
+    const anime_link=`/anime/watch/${watchAnime}?episode-${Episode}&channel=${streamingChannel}`;
     const data_img=recommendedAnimeData[0].img;
     const anime_info={
         _id:userData._id,
@@ -89,7 +89,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
   const addtoWatchList=async(data)=>{
       const {watchAnime,Episode}=data;
       const data_name=`${watchAnime} episode:${Episode}`
-    const anime_link=`/anime/watch/${watchAnime}?episode-${Episode}&channel=gogo`;
+    const anime_link=`/anime/watch/${watchAnime}?episode-${Episode}&channel=${streamingChannel}`;
     const data_img=recommendedAnimeData[0].img;
     const anime_info={
         _id:userData._id,
@@ -110,7 +110,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
             const playPreviousEpisode=(ep)=>{
                 const currentEpisode=parseInt(ep);
                 if (currentEpisode!=1) {
-                    router.push(`/anime/watch/${watchAnime}?episode=${currentEpisode-1}&channel=gogo`);
+                    router.push(`/anime/watch/${watchAnime}?episode=${currentEpisode-1}&channel=${streamingChannel}`);
                 }
                 else{
                     swal({
@@ -123,7 +123,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
       const currentEpisode=parseInt(ep);
       const totalEpisode=totalAnimeEpisodeData[0].Episode;
       if (currentEpisode<totalEpisode) {
-          router.push(`/anime/watch/${watchAnime}?episode=${currentEpisode+1}&channel=gogo`);
+          router.push(`/anime/watch/${watchAnime}?episode=${currentEpisode+1}&channel=${streamingChannel}`);
         }
         else{
             swal({
@@ -180,7 +180,7 @@ const Watch = ({ animeIfameData, totalAnimeEpisodeData, recommendedAnimeData, wa
                             {Array.from(Array(totalAnimeEpisodeData[0].Episode), (e, i) => {
                                 return <>
                                     <li key={i + 1}>
-                                        <Link href={`/anime/watch/${watchAnime}?episode=${i + 1}&channel="gogo"`} passHref>
+                                        <Link href={`/anime/watch/${watchAnime}?episode=${i + 1}&channel=${streamingChannel}`} passHref>
                                             <a className="episode_number">
                                                 <p>{i + 1}</p>
                                             </a>
